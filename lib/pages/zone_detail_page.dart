@@ -1,0 +1,59 @@
+// lib/pages/zone_detail_page.dart
+
+import 'package:flutter/material.dart';
+import '../models/sensor_data.dart'; // SensorData 모델 import
+
+class ZoneDetailPage extends StatelessWidget {
+  final SensorData sensor; // 이 페이지에 표시할 SensorData 객체
+
+  const ZoneDetailPage({
+    Key? key,
+    required this.sensor, // 생성자를 통해 SensorData를 필수로 받습니다.
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('${sensor.areaName} (${sensor.cameraNumber}) 상세'), // AppBar 타이틀에 구역 정보 표시
+        // ZoneDetailPage는 이전 페이지에서 push되어 오므로, 기본 뒤로가기 버튼이 자동으로 생깁니다.
+      ),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                '${sensor.areaName}의 상세 정보 페이지입니다.',
+                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              Text(
+                '연결 상태: ${sensor.isConnected ? '양호' : '불안정'}',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: sensor.isConnected ? Colors.green : Colors.red,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                '카메라 번호: ${sensor.cameraNumber}',
+                style: const TextStyle(fontSize: 16),
+              ),
+              const SizedBox(height: 32),
+              // TODO: 여기에 구역별 센서 상세 현황 (온도, 연기 농도 등) 및 실시간 영상 스트리밍 위젯 추가
+              const Text(
+                '실시간 영상 및 센서 데이터가 여기에 표시됩니다.',
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.grey),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
