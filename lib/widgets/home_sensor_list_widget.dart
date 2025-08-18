@@ -21,7 +21,7 @@ class HomeSensorListWidget extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30.0), // 박스의 좌우 패딩 설정
             child: SizedBox( // 박스의 높이 제한
-              height: 400.0, // 고정 높이 400.0
+              height: 390.0, // 고정 높이 400.0
               child: Container( // 실제 박스 (ListView를 포함)
                 decoration: BoxDecoration(
                   color: Colors.white, // 배경색
