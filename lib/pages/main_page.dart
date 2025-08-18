@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import '../models/sensor_data.dart';
 import '../widgets/home_sensor_list_widget.dart';
 import 'setting_page.dart';
-import 'notice_page.dart';
+import 'notice_board_page.dart';
 import 'video_log_page.dart';
+import 'profile_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -19,10 +20,12 @@ class _MainPageState extends State<MainPage> {
   // 임시 센서 데이터 (models/sensor_data.dart 에서 import된 SensorData 사용)
   final List<SensorData> _sensorList = [
     SensorData(areaName: '구역 A', cameraNumber: 'CAM-001', isConnected: true),
-    SensorData(areaName: '구역 B', cameraNumber: 'CAM-002', isConnected: false), // 연결 끊김/불안정 예시
+    SensorData(areaName: '구역 B', cameraNumber: 'CAM-002', isConnected: false),
+    // 연결 끊김/불안정 예시
     SensorData(areaName: '구역 C', cameraNumber: 'CAM-003', isConnected: true),
     SensorData(areaName: '구역 D', cameraNumber: 'CAM-004', isConnected: true),
-    SensorData(areaName: '구역 E', cameraNumber: 'CAM-005', isConnected: false), // 연결 끊김/불안정 예시
+    SensorData(areaName: '구역 E', cameraNumber: 'CAM-005', isConnected: false),
+    // 연결 끊김/불안정 예시
     SensorData(areaName: '구역 F', cameraNumber: 'CAM-006', isConnected: true),
     SensorData(areaName: '구역 G', cameraNumber: 'CAM-007', isConnected: true),
     SensorData(areaName: '구역 H', cameraNumber: 'CAM-008', isConnected: true),
@@ -39,10 +42,14 @@ class _MainPageState extends State<MainPage> {
     super.initState();
     // _pages 리스트를 initState에서 초기화합니다.
     _pages = <Widget>[
-      HomeSensorListWidget(sensorList: _sensorList), // 인덱스 0: 홈 (HomeSensorListWidget에 _sensorList 전달)
-      const VideoLogPage(),   // 인덱스 1: 영상기록 (나중에 VideoLogPage 등으로 대체)
-      const NoticePage(),                       // <--- 인덱스 2: 게시판 (NoticeBoardPage 사용)
-      const SettingPage(),                           // 인덱스 3: 설정
+      HomeSensorListWidget(sensorList: _sensorList),
+      // 인덱스 0: 홈 (HomeSensorListWidget에 _sensorList 전달)
+      const VideoLogPage(),
+      // 인덱스 1: 영상기록 (나중에 VideoLogPage 등으로 대체)
+      const NoticeBoardPage(),
+      // <--- 인덱스 2: 게시판 (NoticeBoardPage 사용)
+      const SettingPage(),
+      // 인덱스 3: 설정
     ];
   }
 
@@ -71,8 +78,13 @@ class _MainPageState extends State<MainPage> {
           IconButton(
             icon: const Icon(Icons.person),
             onPressed: () {
-              // TODO: 프로필 페이지로 이동 또는 프로필 기능 구현
               print('프로필 아이콘 클릭');
+              Navigator.push( // <--- 프로필 페이지로 이동!
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ProfilePage(),
+                ),
+              );
             },
           ),
           // 로그아웃 아이콘
@@ -95,10 +107,16 @@ class _MainPageState extends State<MainPage> {
           BottomNavigationBarItem(icon: Icon(Icons.dashboard), label: '공지사항'),
           BottomNavigationBarItem(icon: Icon(Icons.settings), label: '설정'),
         ],
-        currentIndex: _selectedIndex, // 현재 선택된 아이템의 인덱스
-        selectedItemColor: Theme.of(context).primaryColor, // 선택된 아이템 색상
-        unselectedItemColor: Colors.grey, // 선택되지 않은 아이템 색상
-        onTap: _onItemTapped, // 아이템 탭 시 호출될 함수
+        currentIndex: _selectedIndex,
+        // 현재 선택된 아이템의 인덱스
+        selectedItemColor: Theme
+            .of(context)
+            .primaryColor,
+        // 선택된 아이템 색상
+        unselectedItemColor: Colors.grey,
+        // 선택되지 않은 아이템 색상
+        onTap: _onItemTapped,
+        // 아이템 탭 시 호출될 함수
         type: BottomNavigationBarType.fixed,
       ),
     );
