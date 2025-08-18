@@ -25,11 +25,6 @@ class ZoneDetailPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                '${sensor.areaName}의 상세 정보 페이지입니다.',
-                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
-              ),
               const SizedBox(height: 16),
               Text(
                 '연결 상태: ${sensor.isConnected ? '양호' : '불안정'}',
