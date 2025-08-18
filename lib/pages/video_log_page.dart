@@ -14,7 +14,7 @@ class VideoLogPage extends StatefulWidget {
 }
 
 class _VideoLogPageState extends State<VideoLogPage> {
-  // 임시 영상 기록 데이터 (스크롤 확인을 위해 데이터 양을 늘렸습니다!)
+  // 임시 영상 기록 데이터
   final List<VideoLog> _allVideoLogs = [
     VideoLog(
       incidentNumber: 1, detectedArea: 'A-숲',
@@ -157,7 +157,6 @@ class _VideoLogPageState extends State<VideoLogPage> {
       detectionTime: DateTime(2025, 7, 26, 8, 45, 0),
       status: '완료', isRealFire: false,
     ),
-    // --- 추가 데이터 끝 ---
   ];
   // 검색 결과를 표시할 리스트 (초기에는 전체 리스트)
   late List<VideoLog> _filteredVideoLogs;
@@ -165,13 +164,13 @@ class _VideoLogPageState extends State<VideoLogPage> {
   final TextEditingController _searchController = TextEditingController();
 
   final Map<String, int> _columnFlex = {
-    'date': 12,
-    'detectedArea': 20,
-    'detector': 15,
+    'date': 11,
+    'detectedArea': 26,
+    'detector': 12,
     'areaManager': 15,
-    'detectionTime': 12,
-    'status': 12,
-    'isRealFire': 14,
+    'detectionTime': 13,
+    'status': 15,
+    'isRealFire': 8,
   };
 
   @override
