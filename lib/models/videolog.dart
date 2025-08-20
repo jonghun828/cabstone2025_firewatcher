@@ -1,20 +1,17 @@
-// lib/models/video_log.dart
-
 import 'package:flutter/material.dart';
 
-// 심각도 Enum 및 색상/표시명 Extension 수정
 enum Severity {
-  low,       // 낮음 (노랑)
-  medium,    // 보통 (주황)
-  high,      // 높음 (빨강)
+  low,
+  medium,
+  high,
 }
 
 extension SeverityColor on Severity {
   Color get color {
     switch (this) {
-      case Severity.low: return Colors.yellow;    // 노랑
-      case Severity.medium: return Colors.orange;  // 주황
-      case Severity.high: return Colors.red;       // 빨강
+      case Severity.low: return Colors.yellow;
+      case Severity.medium: return Colors.orange;
+      case Severity.high: return Colors.red;
     }
   }
 
@@ -27,12 +24,10 @@ extension SeverityColor on Severity {
   }
 }
 
-// 감지기 타입 Enum 수정 (unknown 제거)
 enum DetectorType {
   camera,
   smokeSensor,
   heatSensor,
-  // unknown, // <-- 이 부분을 제거합니다.
 }
 
 extension DetectorTypeString on DetectorType {
@@ -45,17 +40,16 @@ extension DetectorTypeString on DetectorType {
   }
 }
 
-// VideoLog 클래스는 그대로 유지됩니다.
 class VideoLog {
-  final int incidentNumber;
-  final String detectedArea;
-  final DetectorType detectorType;
-  final int detectorNumber;
-  final Severity severity;
-  final String areaManager;
-  final DateTime detectionTime;
-  final String status;
-  final bool isRealFire;
+  final int incidentNumber;     // 사건 번호
+  final String detectedArea;    // 감지된 구역
+  final DetectorType detectorType;  // 감지한 장치의 타입
+  final int detectorNumber;        // 감지한 장치의 번호
+  final Severity severity;         // 감지 심각도
+  final String areaManager;        // 구역 담당자 이름
+  final DateTime detectionTime;    // 최초 감지 시간
+  final String status;             // 사건 상태
+  final bool isRealFire;           // 실제 화재 여부
 
   VideoLog({
     required this.incidentNumber,

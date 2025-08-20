@@ -1,11 +1,8 @@
-// lib/pages/profile_page.dart
-
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart'; // <--- 새로 추가
-import 'dart:io'; // File 클래스를 사용하기 위해 필요 // <--- 새로 추가
-
-import '../models/user_profile.dart';
-import 'profile_edit_page.dart'; // 이미 수정되어 사용 중
+import 'package:image_picker/image_picker.dart';
+import 'dart:io'; // File 클래스를 사용하기 위해 필요
+import '../models/profile.dart';
+import 'profile_edit_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -15,13 +12,13 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  late UserProfile _userProfileData;
+  late Profile _ProfileData;
   File? _pickedImageFile; // <--- 선택된 이미지 파일을 저장할 변수
 
   @override
   void initState() {
     super.initState();
-    _userProfileData = UserProfile(
+    _ProfileData = Profile(
       name: '강동성',
       phonenumber: '010-2564-3660',
       email: 'dongsung.kang@example.com',
@@ -45,7 +42,6 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
-  // 프로필 정보 항목을 깔끔하게 표시하고 클릭 가능하게 하는 헬퍼 위젯/함수 (이전과 동일)
   Widget _buildProfileInfoRow({
     required String label,
     required String value,
@@ -69,19 +65,19 @@ class _ProfilePageState extends State<ProfilePage> {
           setState(() {
             switch (fieldKey) {
               case 'name':
-                _userProfileData = _userProfileData.copyWith(name: newValue);
+                _ProfileData = _ProfileData.copyWith(name: newValue);
                 break;
               case 'phonenumber':
-                _userProfileData = _userProfileData.copyWith(phonenumber: newValue);
+                _ProfileData = _ProfileData.copyWith(phonenumber: newValue);
                 break;
               case 'email':
-                _userProfileData = _userProfileData.copyWith(email: newValue);
+                _ProfileData = _ProfileData.copyWith(email: newValue);
                 break;
               case 'position':
-                _userProfileData = _userProfileData.copyWith(position: newValue);
+                _ProfileData = _ProfileData.copyWith(position: newValue);
                 break;
               case 'area':
-                _userProfileData = _userProfileData.copyWith(area: newValue);
+                _ProfileData = _ProfileData.copyWith(area: newValue);
                 break;
             }
             ScaffoldMessenger.of(context).showSnackBar(
@@ -130,8 +126,8 @@ class _ProfilePageState extends State<ProfilePage> {
     ImageProvider<Object>? profileImage;
     if (_pickedImageFile != null) {
       profileImage = FileImage(_pickedImageFile!); // 선택된 파일이 있으면 FileImage 사용
-    } else if (_userProfileData.photoUrl != null && _userProfileData.photoUrl!.isNotEmpty) {
-      profileImage = NetworkImage(_userProfileData.photoUrl!); // 없으면 기존 URL 사용
+    } else if (_ProfileData.photoUrl != null && _ProfileData.photoUrl!.isNotEmpty) {
+      profileImage = NetworkImage(_ProfileData.photoUrl!); // 없으면 기존 URL 사용
     }
 
     return Scaffold(
@@ -143,7 +139,7 @@ class _ProfilePageState extends State<ProfilePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Stack( // <--- 프로필 사진과 카메라 아이콘을 겹치기 위해 Stack 사용
+            Stack(
               children: [
                 CircleAvatar(
                   radius: 70,
@@ -153,16 +149,15 @@ class _ProfilePageState extends State<ProfilePage> {
                       ? Icon(Icons.person, size: 60, color: Colors.grey[600])
                       : null,
                 ),
-                Positioned( // <--- 우측 하단에 카메라 아이콘 배치
+                Positioned(
                   bottom: 0,
                   right: 0,
-                  child: InkWell( // <--- 카메라 아이콘 클릭 가능하게
+                  child: InkWell(
                     onTap: () {
-                      // 사진 선택 다이얼로그 표시 (카메라 vs 갤러리)
                       showModalBottomSheet(
                         context: context,
                         builder: (context) {
-                          return SafeArea( // 노치 디자인 등을 고려한 안전 영역
+                          return SafeArea(
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
@@ -170,16 +165,16 @@ class _ProfilePageState extends State<ProfilePage> {
                                   leading: const Icon(Icons.camera_alt),
                                   title: const Text('카메라'),
                                   onTap: () {
-                                    Navigator.pop(context); // 바텀 시트 닫기
-                                    _pickImage(ImageSource.camera); // 카메라로 이미지 선택
+                                    Navigator.pop(context);
+                                    _pickImage(ImageSource.camera);
                                   },
                                 ),
                                 ListTile(
                                   leading: const Icon(Icons.photo_library),
                                   title: const Text('갤러리'),
                                   onTap: () {
-                                    Navigator.pop(context); // 바텀 시트 닫기
-                                    _pickImage(ImageSource.gallery); // 갤러리에서 이미지 선택
+                                    Navigator.pop(context);
+                                    _pickImage(ImageSource.gallery);
                                   },
                                 ),
                               ],
@@ -188,9 +183,9 @@ class _ProfilePageState extends State<ProfilePage> {
                         },
                       );
                     },
-                    child: CircleAvatar( // 카메라 아이콘을 원형 배경에 표시
-                      radius: 20, // 아이콘 크기
-                      backgroundColor: Colors.grey, // 테마 색상 사용
+                    child: CircleAvatar(
+                      radius: 20,
+                      backgroundColor: Colors.grey,
                       child: const Icon(
                         Icons.camera_alt,
                         color: Colors.white,
@@ -205,33 +200,33 @@ class _ProfilePageState extends State<ProfilePage> {
 
             _buildProfileInfoRow(
               label: '이름',
-              value: _userProfileData.name,
+              value: _ProfileData.name,
               fieldKey: 'name',
             ),
             const Divider(),
             _buildProfileInfoRow(
               label: '전화번호',
-              value: _userProfileData.phonenumber,
+              value: _ProfileData.phonenumber,
               fieldKey: 'phonenumber',
               keyboardType: TextInputType.phone,
             ),
             const Divider(),
             _buildProfileInfoRow(
               label: '이메일',
-              value: _userProfileData.email,
+              value: _ProfileData.email,
               fieldKey: 'email',
               keyboardType: TextInputType.emailAddress,
             ),
             const Divider(),
             _buildProfileInfoRow(
               label: '직책',
-              value: _userProfileData.position,
+              value: _ProfileData.position,
               fieldKey: 'position',
             ),
             const Divider(),
             _buildProfileInfoRow(
               label: '담당 구역',
-              value: _userProfileData.area,
+              value: _ProfileData.area,
               fieldKey: 'area',
             ),
             const Divider(),

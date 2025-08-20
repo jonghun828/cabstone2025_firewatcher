@@ -9,7 +9,6 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
-  // 입력 컨트롤러들
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -17,7 +16,6 @@ class _SignupPageState extends State<SignupPage> {
 
   @override
   void dispose() {
-    // 컨트롤러 해제
     _emailController.dispose();
     _usernameController.dispose();
     _passwordController.dispose();
@@ -33,7 +31,7 @@ class _SignupPageState extends State<SignupPage> {
 
     print('이메일: $email, 아이디: $username, 비밀번호: $password, 관리자정보: $adminCode');
 
-    // 예시: 회원가입 성공 후 메인 화면으로 이동
+    // 회원가입 성공 후 메인 화면으로 이동
     Navigator.pushReplacementNamed(context, '/');
   }
 

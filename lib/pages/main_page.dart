@@ -1,13 +1,11 @@
-// lib/pages/main_page.dart
-
 import 'package:flutter/material.dart';
-import '../models/sensor_data.dart';
-import '../widgets/home_sensor_list_widget.dart';
+import '../models/sensor.dart';
+import '../widgets/sensor_list.dart';
 import 'setting_page.dart';
 import 'notice_board_page.dart';
 import 'video_log_page.dart';
 import 'profile_page.dart';
-import 'notification_page.dart'; // 알림 페이지 import는 유지
+import 'notification_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -19,18 +17,18 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
 
-  final List<SensorData> _sensorList = [
-    // ... (기존 센서 데이터는 그대로 유지)
-    SensorData(areaName: '구역 A', sensorNumber: 'CAM-001', isConnected: true),
-    SensorData(areaName: '구역 B', sensorNumber: 'CAM-002', isConnected: false),
-    SensorData(areaName: '구역 C', sensorNumber: 'CAM-003', isConnected: true),
-    SensorData(areaName: '구역 D', sensorNumber: 'CAM-004', isConnected: true),
-    SensorData(areaName: '구역 E', sensorNumber: 'CAM-005', isConnected: false),
-    SensorData(areaName: '구역 F', sensorNumber: 'CAM-006', isConnected: true),
-    SensorData(areaName: '구역 G', sensorNumber: 'CAM-007', isConnected: true),
-    SensorData(areaName: '구역 H', sensorNumber: 'CAM-008', isConnected: true),
-    SensorData(areaName: '구역 I', sensorNumber: 'CAM-009', isConnected: false),
-    SensorData(areaName: '구역 J', sensorNumber: 'CAM-010', isConnected: true),
+  final List<Sensor> _sensorList = [
+    //임시 센서 데이터 리스트
+    Sensor(areaName: '구역 A', sensorNumber: 'CAM-001', isConnected: true),
+    Sensor(areaName: '구역 B', sensorNumber: 'CAM-002', isConnected: false),
+    Sensor(areaName: '구역 C', sensorNumber: 'CAM-003', isConnected: true),
+    Sensor(areaName: '구역 D', sensorNumber: 'CAM-004', isConnected: true),
+    Sensor(areaName: '구역 E', sensorNumber: 'CAM-005', isConnected: false),
+    Sensor(areaName: '구역 F', sensorNumber: 'CAM-006', isConnected: true),
+    Sensor(areaName: '구역 G', sensorNumber: 'CAM-007', isConnected: true),
+    Sensor(areaName: '구역 H', sensorNumber: 'CAM-008', isConnected: true),
+    Sensor(areaName: '구역 I', sensorNumber: 'CAM-009', isConnected: false),
+    Sensor(areaName: '구역 J', sensorNumber: 'CAM-010', isConnected: true),
   ];
 
   late final List<Widget> _pages;
@@ -39,10 +37,10 @@ class _MainPageState extends State<MainPage> {
   void initState() {
     super.initState();
     _pages = <Widget>[
-      HomeSensorListWidget(sensorList: _sensorList),
-      const VideoLogPage(),
-      const NoticeBoardPage(),
-      const SettingPage(),
+      HomeSensorListWidget(sensorList: _sensorList),  //0: 홈
+      const VideoLogPage(),                           //1: 영상 기록
+      const NoticeBoardPage(),                        //2: 공지 게시판
+      const SettingPage(),                            //3: 설정
     ];
   }
 
@@ -71,6 +69,7 @@ class _MainPageState extends State<MainPage> {
               );
             },
           ),
+
           // 프로필 아이콘
           IconButton(
             icon: const Icon(Icons.person),
@@ -84,13 +83,6 @@ class _MainPageState extends State<MainPage> {
               );
             },
           ),
-          // 로그아웃 아이콘 <--- 이 아이콘 버튼이 제거되었습니다!
-          // IconButton(
-          //   icon: const Icon(Icons.logout),
-          //   onPressed: () {
-          //     Navigator.pushReplacementNamed(context, '/');
-          //   },
-          // ),
         ],
       ),
       body: IndexedStack(

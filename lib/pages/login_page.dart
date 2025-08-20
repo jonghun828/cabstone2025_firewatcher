@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-// StatefulWidget을 쓰는 이유: 나중에 입력값 상태 관리할 수 있게
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -9,7 +8,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  // 입력 컨트롤러: 사용자가 입력한 텍스트 가져올 때 씀
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -30,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center, // 세로 중앙 정렬
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
 
             // 이메일 입력창
@@ -47,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
             // 비밀번호 입력창
             TextField(
               controller: _passwordController,
-              obscureText: true, // 비밀번호 숨기기
+              obscureText: true,
               decoration: const InputDecoration(
                 labelText: '비밀번호',
                 border: OutlineInputBorder(),

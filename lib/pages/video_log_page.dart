@@ -1,10 +1,8 @@
-// lib/pages/video_log_page.dart
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../models/video_log.dart'; // 수정된 VideoLog 모델 import
-import '../widgets/video_log_table_header.dart';
-import '../widgets/video_log_table_row.dart';
+import '../models/videolog.dart'; // 수정된 VideoLog 모델 import
+import '../widgets/videolog_table_header.dart';
+import '../widgets/videolog_table_row.dart';
 
 class VideoLogPage extends StatefulWidget {
   const VideoLogPage({super.key});
@@ -51,7 +49,6 @@ class _VideoLogPageState extends State<VideoLogPage> {
       detectionTime: DateTime(2025, 8, 10, 10, 15, 0),
       status: '감지', isRealFire: true,
     ),
-    // --- 추가 데이터 시작 ---
     VideoLog(
       incidentNumber: 6, detectedArea: 'E-야영장',
       detectorType: DetectorType.camera, detectorNumber: 7,
@@ -158,7 +155,7 @@ class _VideoLogPageState extends State<VideoLogPage> {
       status: '완료', isRealFire: false,
     ),
   ];
-  // 검색 결과를 표시할 리스트 (초기에는 전체 리스트)
+  // 검색 결과를 표시할 리스트
   late List<VideoLog> _filteredVideoLogs;
   // 검색어 입력 컨트롤러
   final TextEditingController _searchController = TextEditingController();
@@ -211,7 +208,7 @@ class _VideoLogPageState extends State<VideoLogPage> {
           return true;
         }
 
-        // (선택사항) 기타 필드 검색: 구역, 감지기, 상태 등도 검색에 포함
+        // =구역, 감지기, 상태 검색
         if (log.detectedArea.toLowerCase().contains(lowerQuery)) return true;
         if (log.detectorName.toLowerCase().contains(lowerQuery)) return true;
         if (log.status.toLowerCase().contains(lowerQuery)) return true;
@@ -248,14 +245,14 @@ class _VideoLogPageState extends State<VideoLogPage> {
               onChanged: _performSearch, // 입력할 때마다 검색 실행
             ),
           ),
-          VideoLogTableHeader(columnFlex: _columnFlex), // 헤더 부분 분리
-          Expanded( // ListView가 남은 공간을 모두 차지하도록
+          VideoLogTableHeader(columnFlex: _columnFlex),
+          Expanded(
             child: ListView.separated(
-              padding: const EdgeInsets.only(bottom: 16.0), // <-- 여기에 하단 여백 추가!
-              itemCount: _filteredVideoLogs.length, // 필터링된 리스트 사용
+              padding: const EdgeInsets.only(bottom: 16.0),
+              itemCount: _filteredVideoLogs.length,
               separatorBuilder: (context, index) => const Divider(height: 1),
               itemBuilder: (context, index) {
-                final log = _filteredVideoLogs[index]; // 필터링된 리스트 사용
+                final log = _filteredVideoLogs[index];
                 return VideoLogTableRow(
                   log: log,
                   columnFlex: _columnFlex,

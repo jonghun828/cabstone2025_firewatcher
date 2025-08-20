@@ -1,5 +1,3 @@
-// lib/pages/notice_board_page.dart
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../models/notice.dart';
@@ -155,7 +153,7 @@ class _NoticeBoardPageState extends State<NoticeBoardPage> {
                 ),
               );
 
-              // 상세 페이지에서 Notice 객체가 업데이트되었다면 (예: 댓글 추가), 현재 목록 업데이트
+              // 상세 페이지에서 Notice 객체가 업데이트되었다면, 현재 목록 업데이트
               if (updatedNotice != null && updatedNotice is Notice) {
                 setState(() {
                   _notices[index] = updatedNotice;

@@ -1,22 +1,19 @@
-// lib/pages/zone_detail_page.dart
-
 import 'package:flutter/material.dart';
-import '../models/sensor_data.dart'; // SensorData 모델 import
+import '../models/sensor.dart';
 
 class ZoneDetailPage extends StatelessWidget {
-  final SensorData sensor; // 이 페이지에 표시할 SensorData 객체
+  final Sensor sensor;
 
   const ZoneDetailPage({
     Key? key,
-    required this.sensor, // 생성자를 통해 SensorData를 필수로 받습니다.
+    required this.sensor,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('${sensor.areaName} (${sensor.sensorNumber}) 상세'), // AppBar 타이틀에 구역 정보 표시
-        // ZoneDetailPage는 이전 페이지에서 push되어 오므로, 기본 뒤로가기 버튼이 자동으로 생깁니다.
+        title: Text('${sensor.areaName} (${sensor.sensorNumber})'), // AppBar 타이틀에 구역 정보 표시
       ),
       body: Center(
         child: Padding(
@@ -41,7 +38,7 @@ class ZoneDetailPage extends StatelessWidget {
               const SizedBox(height: 32),
               // TODO: 여기에 구역별 센서 상세 현황 (온도, 연기 농도 등) 및 실시간 영상 스트리밍 위젯 추가
               const Text(
-                '실시간 영상 및 센서 데이터가 여기에 표시됩니다.',
+                '실시간 영상 및 센서 데이터',
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.grey),
               ),

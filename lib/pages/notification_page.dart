@@ -1,5 +1,3 @@
-// lib/pages/notification_page.dart
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../models/notification.dart';
@@ -15,6 +13,7 @@ class NotificationPage extends StatefulWidget {
 }
 
 class _NotificationPageState extends State<NotificationPage> {
+  // 임시 알림 데이터
   List<NotificationItem> _notifications = [
     NotificationItem(
       id: 'noti_1',
@@ -77,6 +76,7 @@ class _NotificationPageState extends State<NotificationPage> {
   @override
   void initState() {
     super.initState();
+    // 알림 리스트 최신순 정렬
     _notifications.sort((a, b) => b.timestamp.compareTo(a.timestamp));
   }
 
