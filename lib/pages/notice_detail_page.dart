@@ -1,5 +1,3 @@
-// lib/pages/notice_detail_page.dart
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../models/notice.dart';
@@ -58,7 +56,7 @@ class _NoticeDetailPageState extends State<NoticeDetailPage> {
       appBar: AppBar(
         title: const Text('공지 상세'),
       ),
-      body: SingleChildScrollView( // 전체 페이지가 스크롤 가능하도록 SingleChildScrollView로 감쌉니다.
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -69,25 +67,24 @@ class _NoticeDetailPageState extends State<NoticeDetailPage> {
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
+
             // 작성자 및 날짜
             Text(
               '${_currentNotice.author} | ${DateFormat('yyyy.MM.dd HH:mm').format(_currentNotice.date)}',
               style: TextStyle(fontSize: 14, color: Colors.grey[600]),
             ),
-            const Divider(height: 32, thickness: 1), // 공지 기본 정보와 내용 사이의 구분선
+            const Divider(height: 32, thickness: 1),
 
-            // 공지 내용에 해당하는 공간을 고정으로 키우기 (minHeight 사용)
-            // 내용은 Text(_currentNotice.content)가 자연스럽게 확장되고,
-            // 이 ConstrainedBox가 최소한의 높이를 보장하여 화면을 채웁니다.
+            //공지 내용
             ConstrainedBox(
-              constraints: const BoxConstraints(minHeight: 150.0), // <-- 최소 높이 설정 (조정 가능)
+              constraints: const BoxConstraints(minHeight: 150.0),
               child: Text(
                 _currentNotice.content,
                 style: const TextStyle(fontSize: 16, height: 1.5),
               ),
             ),
 
-            const Divider(height: 32, thickness: 1), // 공지 내용과 댓글 섹션 사이의 구분선
+            const Divider(height: 32, thickness: 1),
 
             // 댓글 섹션
             Text(
@@ -110,6 +107,8 @@ class _NoticeDetailPageState extends State<NoticeDetailPage> {
                   ),
                 ),
                 const SizedBox(width: 8),
+
+                // 등록 버튼
                 ElevatedButton(
                   onPressed: _addComment,
                   style: ElevatedButton.styleFrom(
@@ -126,12 +125,12 @@ class _NoticeDetailPageState extends State<NoticeDetailPage> {
                 ? const Center(
                     child: Padding(
                       padding: EdgeInsets.symmetric(vertical: 20.0),
-                      child: Text('첫 댓글을 남겨주세요!'),
+                      child: Text('댓글을 작성해주세요'),
                     ),
                   )
                 : ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(), // SingleChildScrollView와 함께 사용
-                    shrinkWrap: true, // 자식들의 크기만큼만 공간 차지
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
                     itemCount: _currentNotice.comments.length,
                     itemBuilder: (context, index) {
                       final comment = _currentNotice.comments[index];
