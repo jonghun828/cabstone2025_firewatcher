@@ -21,16 +21,16 @@ class _MainPageState extends State<MainPage> {
 
   final List<SensorData> _sensorList = [
     // ... (기존 센서 데이터는 그대로 유지)
-    SensorData(areaName: '구역 A', cameraNumber: 'CAM-001', isConnected: true),
-    SensorData(areaName: '구역 B', cameraNumber: 'CAM-002', isConnected: false),
-    SensorData(areaName: '구역 C', cameraNumber: 'CAM-003', isConnected: true),
-    SensorData(areaName: '구역 D', cameraNumber: 'CAM-004', isConnected: true),
-    SensorData(areaName: '구역 E', cameraNumber: 'CAM-005', isConnected: false),
-    SensorData(areaName: '구역 F', cameraNumber: 'CAM-006', isConnected: true),
-    SensorData(areaName: '구역 G', cameraNumber: 'CAM-007', isConnected: true),
-    SensorData(areaName: '구역 H', cameraNumber: 'CAM-008', isConnected: true),
-    SensorData(areaName: '구역 I', cameraNumber: 'CAM-009', isConnected: false),
-    SensorData(areaName: '구역 J', cameraNumber: 'CAM-010', isConnected: true),
+    SensorData(areaName: '구역 A', sensorNumber: 'CAM-001', isConnected: true),
+    SensorData(areaName: '구역 B', sensorNumber: 'CAM-002', isConnected: false),
+    SensorData(areaName: '구역 C', sensorNumber: 'CAM-003', isConnected: true),
+    SensorData(areaName: '구역 D', sensorNumber: 'CAM-004', isConnected: true),
+    SensorData(areaName: '구역 E', sensorNumber: 'CAM-005', isConnected: false),
+    SensorData(areaName: '구역 F', sensorNumber: 'CAM-006', isConnected: true),
+    SensorData(areaName: '구역 G', sensorNumber: 'CAM-007', isConnected: true),
+    SensorData(areaName: '구역 H', sensorNumber: 'CAM-008', isConnected: true),
+    SensorData(areaName: '구역 I', sensorNumber: 'CAM-009', isConnected: false),
+    SensorData(areaName: '구역 J', sensorNumber: 'CAM-010', isConnected: true),
   ];
 
   late final List<Widget> _pages;

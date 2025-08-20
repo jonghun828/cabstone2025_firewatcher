@@ -32,6 +32,7 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center, // 세로 중앙 정렬
           children: [
+
             // 이메일 입력창
             TextField(
               controller: _emailController,
@@ -41,7 +42,8 @@ class _LoginPageState extends State<LoginPage> {
               ),
               keyboardType: TextInputType.emailAddress,
             ),
-            const SizedBox(height: 20), // 간격
+            const SizedBox(height: 20),
+
             // 비밀번호 입력창
             TextField(
               controller: _passwordController,
@@ -52,17 +54,18 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             const SizedBox(height: 30),
-            // 로그인 버튼
+
+            // 로그인
             ElevatedButton(
               onPressed: () {
-                // TODO: 로그인 기능 나중에 추가
-                // 지금은 그냥 메인 페이지로 이동해보기
+                // TODO: 로그인 기능
                 Navigator.pushReplacementNamed(context, '/main');
               },
               child: const Text('로그인'),
             ),
             const SizedBox(height: 10),
-            // 회원가입 페이지 이동 버튼
+
+            // 회원가입
             TextButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/signup');

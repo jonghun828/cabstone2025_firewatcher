@@ -77,7 +77,7 @@ class HomeSensorListWidget extends StatelessWidget {
                               ),
                               const SizedBox(width: 8), // 간격
                               Text( // 카메라 번호 표시
-                                '${sensor.cameraNumber}',
+                                '${sensor.sensorNumber}',
                                 style: TextStyle(fontSize: 14, color: Colors.grey[600]),
                               ),
                             ],

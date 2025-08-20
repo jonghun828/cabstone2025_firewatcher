@@ -80,7 +80,7 @@ class _NoticeDetailPageState extends State<NoticeDetailPage> {
             // 내용은 Text(_currentNotice.content)가 자연스럽게 확장되고,
             // 이 ConstrainedBox가 최소한의 높이를 보장하여 화면을 채웁니다.
             ConstrainedBox(
-              constraints: const BoxConstraints(minHeight: 320.0), // <-- 최소 높이 설정 (조정 가능)
+              constraints: const BoxConstraints(minHeight: 150.0), // <-- 최소 높이 설정 (조정 가능)
               child: Text(
                 _currentNotice.content,
                 style: const TextStyle(fontSize: 16, height: 1.5),

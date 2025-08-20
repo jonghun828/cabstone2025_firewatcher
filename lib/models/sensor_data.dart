@@ -1,11 +1,11 @@
 class SensorData {
-  final String areaName;
-  final String cameraNumber;
-  final bool isConnected; // true: 양호(초록), false: 불안정/끊김(빨강)
+  final String areaName;      // 구역 이름
+  final String sensorNumber;  // 연결된 카메라/센서 번호
+  final bool isConnected;     // 연결 상태
 
-  SensorData({
+  const SensorData({
     required this.areaName,
-    required this.cameraNumber,
+    required this.sensorNumber,
     required this.isConnected,
   });
 }

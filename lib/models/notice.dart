@@ -1,15 +1,14 @@
-import 'package:flutter/material.dart';
 import 'comment.dart';
 
 class Notice {
-  final String id;
-  final String title;
-  final String content;
-  final String author;
-  final DateTime date;
-  final List<Comment> comments;
+  final String id;              // 게시글 고유 ID
+  final String title;           // 게시글 제목
+  final String content;         // 게시글 내용
+  final String author;          // 작성자
+  final DateTime date;          // 작성일시
+  final List<Comment> comments; // 해당 게시글에 달린 댓글 리스트
 
-  Notice({
+  const Notice({
     required this.id,
     required this.title,
     required this.content,
@@ -18,7 +17,6 @@ class Notice {
     this.comments = const [],
   });
 
-  // comments 리스트를 업데이트할 때 사용할 copyWith 메서드 (불변성 유지)
   Notice copyWith({
     String? id,
     String? title,

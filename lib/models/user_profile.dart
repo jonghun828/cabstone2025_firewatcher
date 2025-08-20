@@ -1,12 +1,12 @@
 class UserProfile {
-  final String name;
-  final String phonenumber;
-  final String email;
-  final String? photoUrl;
-  final String position;
-  final String area;
+  final String name;        // 사용자 이름
+  final String phonenumber; // 전화번호
+  final String email;       // 이메일 주소
+  final String? photoUrl;   // 프로필 사진 URL
+  final String position;    // 직책
+  final String area;        // 담당 구역
 
-  UserProfile({
+  const UserProfile({
     required this.name,
     required this.phonenumber,
     required this.email,
@@ -14,4 +14,22 @@ class UserProfile {
     required this.position,
     required this.area,
   });
+
+  UserProfile copyWith({
+    String? name,
+    String? phonenumber,
+    String? email,
+    String? photoUrl,
+    String? position,
+    String? area,
+  }) {
+    return UserProfile(
+      name: name ?? this.name,
+      phonenumber: phonenumber ?? this.phonenumber,
+      email: email ?? this.email,
+      photoUrl: photoUrl ?? this.photoUrl,
+      position: position ?? this.position,
+      area: area ?? this.area,
+    );
+  }
 }

@@ -1,18 +1,16 @@
-import 'package:flutter/material.dart';
-
 enum NotificationType {
-  fireDetected,      // 화재 감지
-  sensorDisconnected, // 센서 연결 끊김
-  majorNotice,       // 주요 공지사항
+  fireDetected,
+  sensorDisconnected,
+  majorNotice,
 }
 
 class NotificationItem {
-  final String id;
-  final String title;
-  final String message;
+  final String id;          // 알림 고유 ID
+  final String title;       // 알림 제목
+  final String message;     // 알림 상세 메시지
   final DateTime timestamp; // 알림 발생 시간
   final NotificationType type; // 알림 타입
-  bool isRead;              // 읽음 여부 (true: 읽음, false: 안 읽음)
+  bool isRead;              // 읽음 여부
 
   NotificationItem({
     required this.id,
@@ -20,10 +18,9 @@ class NotificationItem {
     required this.message,
     required this.timestamp,
     required this.type,
-    this.isRead = false, // 기본값은 읽지 않은 상태
+    this.isRead = false,
   });
 
-  // isRead 상태를 변경할 수 있는 copyWith 메서드
   NotificationItem copyWith({
     String? id,
     String? title,

@@ -2,9 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../models/notice.dart'; // 수정된 Notice 모델 import
-import '../models/comment.dart'; // Comment 모델 import
-import 'notice_detail_page.dart'; // 새로 생성한 NoticeDetailPage import
+import '../models/notice.dart';
+import '../models/comment.dart';
+import 'notice_detail_page.dart';
 
 class NoticeBoardPage extends StatefulWidget {
   const NoticeBoardPage({super.key});
@@ -14,10 +14,9 @@ class NoticeBoardPage extends StatefulWidget {
 }
 
 class _NoticeBoardPageState extends State<NoticeBoardPage> {
-  // TODO: 실제 사용자 인증 로직과 연동하여 관리자 여부 판단
-  bool _isAdmin = true; // 임시로 true로 설정하여 관리자 기능을 테스트합니다.
+  bool _isAdmin = true; // true: 관리자 false: 일반 관리자
 
-  // 임시 공지사항 데이터 (댓글 포함하여 정의)
+  // 임시 공지사항 데이터
   List<Notice> _notices = [
     Notice(
       id: '1',
@@ -122,19 +121,16 @@ class _NoticeBoardPageState extends State<NoticeBoardPage> {
       appBar: AppBar(
         title: const Text('공지 게시판'),
         automaticallyImplyLeading:
-            false, // BottomNavigationBar 탭 페이지이므로 뒤로가기 버튼 없음
+            false,
         actions: [
-          // Collection If 문을 사용하여 _isAdmin이 true일 때만 IconButton을 리스트에 포함
-          if (_isAdmin) // <--- 이 조건문이 _isAdmin이 true일 때만 아래 위젯을 렌더링합니다.
+          if (_isAdmin)
             IconButton(
-              icon: const Icon(Icons.edit, size: 20.0), // 수정 아이콘
+              icon: const Icon(Icons.edit, size: 20.0),
               onPressed: () {
                 print('새 공지 작성 버튼 클릭됨');
                 // TODO: 새 공지 작성 페이지로 이동
-                // Navigator.push(context, MaterialPageRoute(builder: (context) => NoticeWritePage()));
               },
             ),
-          // 필요하다면 여기에 다른 아이콘 버튼들도 추가할 수 있습니다.
         ],
       ),
       body: ListView.separated(
@@ -152,9 +148,7 @@ class _NoticeBoardPageState extends State<NoticeBoardPage> {
             ),
             onTap: () async {
               print('공지사항 "${notice.title}" 클릭됨');
-              // 상세 페이지로 이동하며 선택된 공지 데이터를 전달
               final updatedNotice = await Navigator.push(
-                // await로 상세 페이지에서 업데이트된 Notice를 받을 수 있음
                 context,
                 MaterialPageRoute(
                   builder: (context) => NoticeDetailPage(notice: notice),
@@ -170,7 +164,7 @@ class _NoticeBoardPageState extends State<NoticeBoardPage> {
             },
           );
         },
-        separatorBuilder: (context, index) => const Divider(), // 각 공지 사이에 구분선
+        separatorBuilder: (context, index) => const Divider(),
       ),
     );
   }

@@ -15,7 +15,7 @@ class ZoneDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('${sensor.areaName} (${sensor.cameraNumber}) 상세'), // AppBar 타이틀에 구역 정보 표시
+        title: Text('${sensor.areaName} (${sensor.sensorNumber}) 상세'), // AppBar 타이틀에 구역 정보 표시
         // ZoneDetailPage는 이전 페이지에서 push되어 오므로, 기본 뒤로가기 버튼이 자동으로 생깁니다.
       ),
       body: Center(
@@ -35,7 +35,7 @@ class ZoneDetailPage extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               Text(
-                '카메라 번호: ${sensor.cameraNumber}',
+                '센서 번호: ${sensor.sensorNumber}',
                 style: const TextStyle(fontSize: 16),
               ),
               const SizedBox(height: 32),

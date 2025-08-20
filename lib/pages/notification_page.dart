@@ -5,12 +5,9 @@ import 'package:intl/intl.dart';
 import '../models/notification.dart';
 
 class NotificationPage extends StatefulWidget {
-  // <--- 콜백 함수 정의 (여기는 그대로)
-  final ValueChanged<bool> onNotificationsRead; // 알림 상태 변경 시 호출될 콜백
 
   const NotificationPage({
     Key? key,
-    required this.onNotificationsRead, // <--- 이 부분이 NotificationPage 위젯 생성자에 있어야 합니다.
   }) : super(key: key);
 
   @override
@@ -18,14 +15,13 @@ class NotificationPage extends StatefulWidget {
 }
 
 class _NotificationPageState extends State<NotificationPage> {
-  // 임시 알림 데이터 (알림 타입 변경 반영)
   List<NotificationItem> _notifications = [
     NotificationItem(
       id: 'noti_1',
       title: '화재 감지! A-숲 구역 비상!',
       message: 'A-숲 구역에서 고온 감지. 즉시 확인 필요.',
       timestamp: DateTime(2025, 8, 18, 17, 30),
-      type: NotificationType.fireDetected, // 화재 감지
+      type: NotificationType.fireDetected,
       isRead: false,
     ),
     NotificationItem(
@@ -33,7 +29,7 @@ class _NotificationPageState extends State<NotificationPage> {
       title: '시스템 업데이트 완료 안내',
       message: 'v1.5 업데이트가 완료되었습니다. 새로운 기능 확인.',
       timestamp: DateTime(2025, 8, 18, 10, 0),
-      type: NotificationType.majorNotice, // 주요 공지사항으로 변경
+      type: NotificationType.majorNotice,
       isRead: false,
     ),
     NotificationItem(
@@ -41,7 +37,7 @@ class _NotificationPageState extends State<NotificationPage> {
       title: '센서 오류: C-산책로 센서 연결 불안정',
       message: 'C-산책로 구역의 연기 센서 S-5번이 일시적으로 연결이 끊겼습니다.',
       timestamp: DateTime(2025, 8, 17, 23, 15),
-      type: NotificationType.sensorDisconnected, // 센서 연결 끊김
+      type: NotificationType.sensorDisconnected,
       isRead: false,
     ),
     NotificationItem(
@@ -49,7 +45,7 @@ class _NotificationPageState extends State<NotificationPage> {
       title: '관리자 공지: 정기 시스템 점검 예정',
       message: '8월 25일 정기 시스템 점검이 예정되어 있습니다. 자세한 내용은 공지 게시판 참조.',
       timestamp: DateTime(2025, 8, 17, 14, 0),
-      type: NotificationType.majorNotice, // 주요 공지사항으로 변경
+      type: NotificationType.majorNotice,
       isRead: true,
     ),
     NotificationItem(
@@ -57,7 +53,7 @@ class _NotificationPageState extends State<NotificationPage> {
       title: '화재 감지! B-초소 구역 경보 발생!',
       message: 'B-초소 구역에서 화재 감지 경보가 발생했습니다. 담당자는 즉시 확인바랍니다.',
       timestamp: DateTime(2025, 8, 16, 9, 45),
-      type: NotificationType.fireDetected, // 화재 감지
+      type: NotificationType.fireDetected,
       isRead: false,
     ),
      NotificationItem(
@@ -65,7 +61,7 @@ class _NotificationPageState extends State<NotificationPage> {
       title: '새로운 로그인 기기 감지 알림',
       message: '미등록 기기에서 로그인이 감지되었습니다. 본인 여부 확인 요망.',
       timestamp: DateTime(2025, 8, 15, 18, 30),
-      type: NotificationType.majorNotice, // 주요 공지사항으로 변경
+      type: NotificationType.majorNotice,
       isRead: false,
     ),
     NotificationItem(
@@ -73,7 +69,7 @@ class _NotificationPageState extends State<NotificationPage> {
       title: '센서 복구: C-산책로 센서 연결 정상화',
       message: '이전에 불안정했던 C-산책로 구역의 연기 센서 S-5번이 정상화되었습니다.',
       timestamp: DateTime(2025, 8, 15, 10, 0),
-      type: NotificationType.sensorDisconnected, // 센서 연결 끊김
+      type: NotificationType.sensorDisconnected,
       isRead: true,
     ),
   ];
@@ -84,6 +80,7 @@ class _NotificationPageState extends State<NotificationPage> {
     _notifications.sort((a, b) => b.timestamp.compareTo(a.timestamp));
   }
 
+  // 알림 클릭 시 읽음 상태로 변경하는 함수
   void _markAsRead(String notificationId) {
     setState(() {
       final index = _notifications.indexWhere((noti) => noti.id == notificationId);
@@ -91,6 +88,11 @@ class _NotificationPageState extends State<NotificationPage> {
         _notifications[index] = _notifications[index].copyWith(isRead: true);
       }
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -115,23 +117,9 @@ class _NotificationPageState extends State<NotificationPage> {
                   },
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 12.0),
-                    color: notification.isRead ? Colors.white : Colors.blue.withOpacity(0.05),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                          child: notification.isRead
-                              ? const SizedBox(width: 8, height: 8)
-                              : Container(
-                                  width: 8,
-                                  height: 8,
-                                  decoration: const BoxDecoration(
-                                    color: Colors.red,
-                                    shape: BoxShape.circle,
-                                  ),
-                                ),
-                        ),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -157,18 +145,29 @@ class _NotificationPageState extends State<NotificationPage> {
                                 overflow: TextOverflow.ellipsis,
                               ),
                               const SizedBox(height: 8),
-                              Align(
-                                alignment: Alignment.bottomRight,
-                                child: Text(
-                                  DateFormat('yyyy.MM.dd HH:mm').format(notification.timestamp),
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.grey[500],
-                                  ),
+                              Text(
+                                DateFormat('yyyy.MM.dd HH:mm').format(notification.timestamp),
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey[500],
                                 ),
                               ),
                             ],
                           ),
+                        ),
+                        const SizedBox(width: 8),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 0, right: 8.0),
+                          child: notification.isRead
+                              ? const SizedBox(width: 8, height: 8)
+                              : Container(
+                                  width: 8,
+                                  height: 8,
+                                  decoration: const BoxDecoration(
+                                    color: Colors.red,
+                                    shape: BoxShape.circle,
+                                  ),
+                                ),
                         ),
                       ],
                     ),
