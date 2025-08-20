@@ -1,9 +1,7 @@
-// lib/widgets/video_log_table_row.dart
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../models/video_log.dart'; // VideoLog 모델 import
-import 'video_log_data_cell.dart'; // 데이터 셀 위젯 import
+import '../models/videolog.dart';
+import 'videolog_data_cell.dart';
 
 class VideoLogTableRow extends StatelessWidget {
   final VideoLog log;

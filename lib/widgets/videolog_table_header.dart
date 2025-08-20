@@ -1,7 +1,5 @@
-// lib/widgets/video_log_table_header.dart
-
 import 'package:flutter/material.dart';
-import 'video_log_header_cell.dart'; // 헤더 셀 위젯 import
+import 'videolog_header_cell.dart';
 
 class VideoLogTableHeader extends StatelessWidget {
   final Map<String, int> columnFlex;

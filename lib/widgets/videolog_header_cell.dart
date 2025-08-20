@@ -1,10 +1,8 @@
-// lib/widgets/video_log_header_cell.dart
-
 import 'package:flutter/material.dart';
 
 class VideoLogHeaderCell extends StatelessWidget {
-  final String title;
-  final int flex;
+  final String title; // 제목 텍스트
+  final int flex;     // 공간의 flex 비율
 
   const VideoLogHeaderCell({
     Key? key,
