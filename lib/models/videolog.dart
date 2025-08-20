@@ -16,6 +16,22 @@ extension DetectorTypeString on DetectorType {
   }
 }
 
+enum Severity {
+  low,
+  medium,
+  high,
+}
+
+extension SeverityColor on Severity {
+  Color get color {
+    switch (this) {
+      case Severity.low: return Colors.yellow;
+      case Severity.medium: return Colors.orange;
+      case Severity.high: return Colors.red;
+    }
+  }
+}
+
 class VideoLog {
   final int incidentNumber;     // 사건 번호
   final String detectedArea;    // 감지된 구역
