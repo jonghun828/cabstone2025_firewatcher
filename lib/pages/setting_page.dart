@@ -16,16 +16,6 @@ class SettingPage extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         children: [
           ListTile(
-            leading: Icon(Icons.person_outline),
-            title: Text('개인정보 설정'),
-            onTap: () {
-              print('개인정보 설정 메뉴 선택');
-              // TODO: 개인정보 설정 상세 페이지로 이동
-            },
-          ),
-          Divider(),
-
-          ListTile(
             leading: Icon(Icons.notifications_none), // 알림 관련 아이콘
             title: Text('알림 설정'),
             onTap: () {
@@ -84,6 +74,14 @@ class SettingPage extends StatelessWidget {
             },
           ),
           Divider(),
+
+          ListTile(
+            leading: Icon(Icons.logout),
+            title: Text('로그아웃'),
+            onTap: (){
+              Navigator.pushReplacementNamed(context, '/');
+            }
+          ),
         ],
       ),
     );
