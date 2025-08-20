@@ -1,29 +1,5 @@
 import 'package:flutter/material.dart';
 
-enum Severity {
-  low,
-  medium,
-  high,
-}
-
-extension SeverityColor on Severity {
-  Color get color {
-    switch (this) {
-      case Severity.low: return Colors.yellow;
-      case Severity.medium: return Colors.orange;
-      case Severity.high: return Colors.red;
-    }
-  }
-
-  String get displayName {
-    switch (this) {
-      case Severity.low: return '낮음';
-      case Severity.medium: return '보통';
-      case Severity.high: return '높음';
-    }
-  }
-}
-
 enum DetectorType {
   camera,
   smokeSensor,
@@ -36,6 +12,21 @@ extension DetectorTypeString on DetectorType {
       case DetectorType.camera: return 'C';
       case DetectorType.smokeSensor: return 'S';
       case DetectorType.heatSensor: return 'H';
+    }
+  }
+}
+enum Severity {
+  low,
+  medium,
+  high,
+}
+
+extension SeverityColor on Severity {
+  Color get color {
+    switch (this) {
+      case Severity.low: return Colors.yellow;
+      case Severity.medium: return Colors.orange;
+      case Severity.high: return Colors.red;
     }
   }
 }
