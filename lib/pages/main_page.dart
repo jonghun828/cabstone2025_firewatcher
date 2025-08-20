@@ -3,7 +3,7 @@ import '../models/sensor.dart';
 import '../widgets/sensor_list.dart';
 import 'setting_page.dart';
 import 'notice_board_page.dart';
-import 'video_log_page.dart';
+import 'videolog_page.dart';
 import 'profile_page.dart';
 import 'notification_page.dart';
 
