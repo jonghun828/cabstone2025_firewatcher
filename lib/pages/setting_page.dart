@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'setting_notification_page.dart';
 import 'setting_video_page.dart';
+import 'setting_theme_page.dart';
+import 'setting_language_page.dart';
 
 class SettingPage extends StatelessWidget {
   const SettingPage({super.key});
@@ -59,7 +61,13 @@ class SettingPage extends StatelessWidget {
             title: Text('테마 설정'),
             onTap: () {
               print('테마 설정 메뉴 클릭');
-              // TODO: 테마 설정 상세 페이지로 이동
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      const SettingThemePage(), // <--- 클래스 이름 변경!
+                ),
+              );
             },
           ),
           Divider(),
@@ -69,7 +77,13 @@ class SettingPage extends StatelessWidget {
             title: Text('언어 설정'),
             onTap: () {
               print('언어 설정 메뉴 클릭');
-              // TODO: 언어 설정 상세 페이지로 이동
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      const SettingLanguagePage(), // <--- 클래스 이름 변경!
+                ),
+              );
             },
           ),
           Divider(),
