@@ -132,7 +132,7 @@ class _NoticeBoardPageState extends State<NoticeBoardPage> {
         ],
       ),
       body: ListView.separated(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(20.0),
         itemCount: _notices.length,
         itemBuilder: (context, index) {
           final notice = _notices[index];

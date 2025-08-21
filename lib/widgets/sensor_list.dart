@@ -18,7 +18,7 @@ class HomeSensorListWidget extends StatelessWidget {
       children: [
         Center(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30.0),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: SizedBox(
               height: 390.0,
               child: Container( // 센서 현황 리스트
