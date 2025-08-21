@@ -51,40 +51,45 @@ class _SettingNotificationPageState extends State<SettingNotificationPage> {
 
   /// 알림음 선택 다이얼로그를 띄우고 선택된 알림음을 반환합니다.
   Future<Ringtone?> _showRingtoneSelectionDialog() async {
+    Ringtone? dialogSelectedRingtone = _currentSetting.selectedRingtone; // 다이얼로그 내부 상태 변수
+
     return showDialog<Ringtone>(
       context: context,
-      builder: (BuildContext context) {
-        Ringtone? selectedRingtone = _currentSetting.selectedRingtone; // 현재 선택된 알림음
+      builder: (BuildContext dialogContext) { // 다이얼로그 컨텍스트
         return AlertDialog(
           title: const Text('알림음 선택'),
-          content: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: _ringtones.map((ringtone) {
-                return RadioListTile<Ringtone>(
-                  title: Text(ringtone.name),
-                  value: ringtone,
-                  groupValue: selectedRingtone,
-                  onChanged: (Ringtone? value) {
-                    setState(() {
-                      selectedRingtone = value; // 다이얼로그 내에서 선택 값 업데이트
-                    });
-                  },
-                );
-              }).toList(),
-            ),
+          content: StatefulBuilder( // 다이얼로그 내부의 상태 변화를 반영하기 위해 StatefulBuilder 사용
+            builder: (BuildContext innerContext, StateSetter innerSetState) {
+              return SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: _ringtones.map((ringtone) {
+                    return RadioListTile<Ringtone>(
+                      title: Text(ringtone.name),
+                      value: ringtone,
+                      groupValue: dialogSelectedRingtone, // 다이얼로그 내부 상태 변수 사용
+                      onChanged: (Ringtone? value) {
+                        innerSetState(() { // innerSetState를 사용하여 다이얼로그 내부 UI 업데이트
+                          dialogSelectedRingtone = value;
+                        });
+                      },
+                    );
+                  }).toList(),
+                ),
+              );
+            },
           ),
           actions: <Widget>[
             TextButton(
               child: const Text('취소'),
               onPressed: () {
-                Navigator.of(context).pop(); // 다이얼로그 닫기 (null 반환)
+                Navigator.of(dialogContext).pop(); // 다이얼로그 닫기 (null 반환)
               },
             ),
             TextButton(
               child: const Text('확인'),
               onPressed: () {
-                Navigator.of(context).pop(selectedRingtone); // 선택된 알림음 반환
+                Navigator.of(dialogContext).pop(dialogSelectedRingtone); // 선택된 알림음 반환
               },
             ),
           ],
@@ -95,40 +100,45 @@ class _SettingNotificationPageState extends State<SettingNotificationPage> {
 
   /// 진동 패턴 선택 다이얼로그를 띄우고 선택된 진동 패턴을 반환합니다.
   Future<VibrationPattern?> _showVibrationPatternSelectionDialog() async {
+    VibrationPattern? dialogSelectedPattern = _currentSetting.selectedVibrationPattern; // 다이얼로그 내부 상태 변수
+
     return showDialog<VibrationPattern>(
       context: context,
-      builder: (BuildContext context) {
-        VibrationPattern? selectedPattern = _currentSetting.selectedVibrationPattern; // 현재 선택된 패턴
+      builder: (BuildContext dialogContext) { // 다이얼로그 컨텍스트
         return AlertDialog(
           title: const Text('진동 패턴 선택'),
-          content: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: _vibrationPatterns.map((pattern) {
-                return RadioListTile<VibrationPattern>(
-                  title: Text(pattern.name),
-                  value: pattern,
-                  groupValue: selectedPattern,
-                  onChanged: (VibrationPattern? value) {
-                    setState(() {
-                      selectedPattern = value;
-                    });
-                  },
-                );
-              }).toList(),
-            ),
+          content: StatefulBuilder( // 다이얼로그 내부의 상태 변화를 반영하기 위해 StatefulBuilder 사용
+            builder: (BuildContext innerContext, StateSetter innerSetState) {
+              return SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: _vibrationPatterns.map((pattern) {
+                    return RadioListTile<VibrationPattern>(
+                      title: Text(pattern.name),
+                      value: pattern,
+                      groupValue: dialogSelectedPattern, // 다이얼로그 내부 상태 변수 사용
+                      onChanged: (VibrationPattern? value) {
+                        innerSetState(() { // innerSetState를 사용하여 다이얼로그 내부 UI 업데이트
+                          dialogSelectedPattern = value;
+                        });
+                      },
+                    );
+                  }).toList(),
+                ),
+              );
+            },
           ),
           actions: <Widget>[
             TextButton(
               child: const Text('취소'),
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.of(dialogContext).pop();
               },
             ),
             TextButton(
               child: const Text('확인'),
               onPressed: () {
-                Navigator.of(context).pop(selectedPattern);
+                Navigator.of(dialogContext).pop(dialogSelectedPattern);
               },
             ),
           ],
@@ -160,7 +170,7 @@ class _SettingNotificationPageState extends State<SettingNotificationPage> {
           if (_currentSetting.enableSound)
             ListTile(
               title: const Text('알림음'),
-              subtitle: Text( // <--- 선택된 알림음 이름을 subtitle로 표시
+              subtitle: Text( // 선택된 알림음 이름을 subtitle로 표시
                 _currentSetting.selectedRingtone.name,
                 style: TextStyle(fontSize: 13, color: Colors.grey[600]),
               ),
@@ -190,7 +200,7 @@ class _SettingNotificationPageState extends State<SettingNotificationPage> {
           if (_currentSetting.enableVibration)
             ListTile(
               title: const Text('진동 패턴'),
-              subtitle: Text( // <--- 선택된 진동 패턴 이름을 subtitle로 표시
+              subtitle: Text( // 선택된 진동 패턴 이름을 subtitle로 표시
                 _currentSetting.selectedVibrationPattern.name,
                 style: TextStyle(fontSize: 13, color: Colors.grey[600]),
               ),
