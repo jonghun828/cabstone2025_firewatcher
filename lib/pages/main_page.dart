@@ -19,16 +19,16 @@ class _MainPageState extends State<MainPage> {
 
   final List<Sensor> _sensorList = [
     //임시 센서 데이터 리스트
-    Sensor(areaName: '구역 A', sensorNumber: 'CAM-001', isConnected: true),
-    Sensor(areaName: '구역 B', sensorNumber: 'CAM-002', isConnected: false),
-    Sensor(areaName: '구역 C', sensorNumber: 'CAM-003', isConnected: true),
-    Sensor(areaName: '구역 D', sensorNumber: 'CAM-004', isConnected: true),
-    Sensor(areaName: '구역 E', sensorNumber: 'CAM-005', isConnected: false),
-    Sensor(areaName: '구역 F', sensorNumber: 'CAM-006', isConnected: true),
-    Sensor(areaName: '구역 G', sensorNumber: 'CAM-007', isConnected: true),
-    Sensor(areaName: '구역 H', sensorNumber: 'CAM-008', isConnected: true),
-    Sensor(areaName: '구역 I', sensorNumber: 'CAM-009', isConnected: false),
-    Sensor(areaName: '구역 J', sensorNumber: 'CAM-010', isConnected: true),
+    Sensor(areaName: 'A-숲', sensorNumber: 'C-1', isConnected: true),
+    Sensor(areaName: 'A-산책로', sensorNumber: 'C-2', isConnected: false),
+    Sensor(areaName: 'A-초소', sensorNumber: 'C-3', isConnected: true),
+    Sensor(areaName: 'A-주차장', sensorNumber: 'C-4', isConnected: true),
+    Sensor(areaName: 'A-계곡', sensorNumber: 'C-5', isConnected: false),
+    Sensor(areaName: 'A-야영장', sensorNumber: 'C-6', isConnected: true),
+    Sensor(areaName: 'A-등산로', sensorNumber: 'C-7', isConnected: true),
+    Sensor(areaName: 'A-정상', sensorNumber: 'C-8', isConnected: true),
+    Sensor(areaName: 'A-휴게소', sensorNumber: 'C-9', isConnected: false),
+    Sensor(areaName: 'A-둘레길', sensorNumber: 'C-10', isConnected: true),
   ];
 
   late final List<Widget> _pages;
