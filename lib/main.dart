@@ -12,11 +12,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Wildfire watcher', // 앱 제목 (임의 작명)
+      title: 'Wildfire watcher',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/', // 시작 화면
+      initialRoute: '/',
       routes: appRoutes, // 라우트 맵 연결
     );
   }
