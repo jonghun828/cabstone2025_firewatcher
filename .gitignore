@@ -43,3 +43,9 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Firebase 서비스 계정 키 파일 제외
+wgwfefwff-firebase-adminsdk-fbsvc-894136897f.json
+
+# Python 환경 관련 파일 제외
+__pycache__/
