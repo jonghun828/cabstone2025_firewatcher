@@ -42,7 +42,7 @@ class VideoLogDetailPage extends StatelessWidget {
             _buildInfoRow('감지한 기기', '${log.detectorType.koreanName} ${log.detectorNumber}번'),
             _buildInfoRow('심각도', log.severity.koreanName),
             _buildInfoRow('담당자', log.areaManager),
-            _buildInfoRow('최초 감지 시간', DateFormat('yyyy.MM.dd HH:mm:ss').format(log.detectionTime)),
+            _buildInfoRow('최초 감지 시간', DateFormat('yyyy.MM.dd HH:mm').format(log.detectionTime)),
           ],
         ),
       ),

@@ -73,7 +73,7 @@ class VideoLogCard extends StatelessWidget {
             const SizedBox(height: 8),
             _buildInfoRow('구역', log.detectedArea),
             _buildInfoRow('담당자', log.areaManager),
-            _buildInfoRow('시간', DateFormat('HH:mm:ss').format(log.detectionTime)),
+            _buildInfoRow('시간', DateFormat('HH:mm').format(log.detectionTime)),
           ],
         ),
       ),
