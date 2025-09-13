@@ -134,9 +134,13 @@ class _NoticeDetailPageState extends State<NoticeDetailPage> {
                     itemCount: _currentNotice.comments.length,
                     itemBuilder: (context, index) {
                       final comment = _currentNotice.comments[index];
-                      return Card(
+                      return Container( // 👈 Card 대신 Container 사용
                         margin: const EdgeInsets.only(bottom: 12),
-                        elevation: 1,
+                        decoration: BoxDecoration( // 👈 Decoration 추가
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: Colors.grey.shade300, width: 1.0),
+                        ),
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),
                           child: Column(
