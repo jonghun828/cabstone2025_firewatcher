@@ -29,7 +29,7 @@ class HomeSensorListWidget extends StatelessWidget {
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.15),
                       spreadRadius: 2,
-                      blurRadius: 8,
+                      blurRadius: 2,
                       offset: const Offset(0, 4),
                     ),
                   ],

@@ -124,12 +124,6 @@ class _NoticeBoardPageState extends State<NoticeBoardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('공지 게시판'),
-        // BottomNavigationBar를 통해 접근되므로 뒤로가기 버튼 숨김.
-        automaticallyImplyLeading: false,
-        actions: const [], // <--- '새 공지 작성' 아이콘 버튼을 제거했습니다. (actions: [])
-      ),
       body: ListView.separated(
         // 공지사항 목록을 스크롤 가능한 리스트로 표시.
         padding: const EdgeInsets.all(16.0), // 리스트 전체 패딩.
