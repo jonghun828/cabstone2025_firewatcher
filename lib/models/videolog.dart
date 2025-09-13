@@ -3,7 +3,19 @@ import 'package:flutter/material.dart';
 enum DetectorType {
   camera,
   smokeSensor,
-  heatSensor,
+  heatSensor;
+
+  // 👈 한글 이름을 반환하는 getter
+  String get koreanName {
+    switch (this) {
+      case DetectorType.camera:
+        return '카메라';
+      case DetectorType.smokeSensor:
+        return '연기 감지 센서';
+      case DetectorType.heatSensor:
+        return '열 감지 센서';
+    }
+  }
 }
 
 extension DetectorTypeString on DetectorType {
@@ -19,7 +31,19 @@ extension DetectorTypeString on DetectorType {
 enum Severity {
   low,
   medium,
-  high,
+  high;
+
+  // 👈 한글 이름을 반환하는 getter
+  String get koreanName {
+    switch (this) {
+      case Severity.low:
+        return '낮음';
+      case Severity.medium:
+        return '보통';
+      case Severity.high:
+        return '높음';
+    }
+  }
 }
 
 extension SeverityColor on Severity {
