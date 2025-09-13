@@ -2,15 +2,19 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../models/videolog.dart'; // VideoLog 모델 추가
+import '../models/videolog.dart';
 import '../models/sensor.dart';
 
 // 각 탭 페이지들 (IndexedStack에 포함될 페이지들)
-import 'videolog_page.dart'; // 영상 기록 페이지 (파일명 수정 반영)
-import 'notice_board_page.dart'; // 공지 게시판 페이지
-import 'profile_page.dart'; // 프로필 페이지
-import 'notification_page.dart'; // 알림 페이지
-import 'setting_page.dart'; // 설정 페이지
+import 'videolog_page.dart';
+import 'notice_board_page.dart';
+import 'profile_page.dart';
+import 'notification_page.dart';
+import 'setting_page.dart';
+import 'videolog_detail_page.dart';
+
+// import 'area_detail_page.dart'; // 👈 AreaDetailPage import 제거
+import 'zone_detail_page.dart'; // 👈 ZoneDetailPage import 추가
 
 // 설정 상세 페이지들 (설정 페이지에서 이동하므로, main_page에는 직접 사용 안 함)
 import 'setting_notification_page.dart';
@@ -26,29 +30,23 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  int _selectedIndex = 0; // 현재 선택된 BottomNavigationBar 아이템의 인덱스
+  int _selectedIndex = 0;
 
-  // 센서 데이터 리스트 (임시 데이터)
   final List<Sensor> _sensorList = [
-    // 다양한 연결 상태를 가진 센서 데이터를 포함합니다.
     Sensor(areaName: 'A-숲', sensorNumber: 'C-1', isConnected: false),
     Sensor(areaName: 'A-산책로', sensorNumber: 'C-2', isConnected: false),
-    // 연결 불안정 센서
     Sensor(areaName: 'A-초소', sensorNumber: 'C-3', isConnected: false),
     Sensor(areaName: 'B-숲', sensorNumber: 'B-1', isConnected: true),
     Sensor(areaName: 'C-숲', sensorNumber: 'C-1', isConnected: true),
   ];
 
-  // 예시 데이터: 공지 게시판
   final List<String> _notices = [
     '새로운 시스템 업데이트 안내 (v1.2.0)',
     '정기 점검으로 인한 서비스 일시 중단 안내',
     '화재 발생 시 대처 요령 공지',
   ];
 
-  // 예시 데이터: 진행 중인 사건 (VideoLog 모델 재사용)
   final List<VideoLog> _ongoingIncidents = [
-    // 비어있는 상태를 테스트하려면 이 리스트를 비우세요.
     VideoLog(
       incidentNumber: 1,
       detectedArea: 'A-숲',
@@ -73,70 +71,76 @@ class _MainPageState extends State<MainPage> {
     ),
   ];
 
-  late final List<Widget> _pages; // BottomNavigationBar 탭에 해당하는 위젯 리스트
-  late final List<String> _appBarTitles; // 각 탭에 표시될 AppBar 타이틀 목록
+  late final List<Widget> _pages;
+  late final List<String> _appBarTitles;
 
   @override
   void initState() {
     super.initState();
-    // _pages 리스트 초기화: 각 탭이 보여줄 실제 화면 위젯들을 정의합니다.
     _pages = <Widget>[
-      _buildHomePage(), // 0번 인덱스: 홈 탭 (새로 정의된 홈 페이지 위젯)
-      const VideoLogPage(), // 1번 인덱스: 영상기록 탭 (파일명 수정 반영)
-      const NoticeBoardPage(), // 2번 인덱스: 게시판 탭
-      const SettingPage(), // 3번 인덱스: 설정 탭
+      _buildHomePage(),
+      const VideoLogPage(),
+      const NoticeBoardPage(),
+      const SettingPage(),
     ];
 
-    // _appBarTitles 리스트 초기화: 각 탭 인덱스에 매핑되는 AppBar의 타이틀을 정의합니다.
-    _appBarTitles = const [
-      '산불 감지 시스템', // 0번 탭 (홈)의 타이틀
-      '영상 기록', // 1번 탭 (영상기록)의 타이틀
-      '공지 게시판', // 2번 탭 (게시판)의 타이틀
-      '설정', // 3번 탭 (설정)의 타이틀
-    ];
+    _appBarTitles = const ['산불 감지 시스템', '영상 기록', '공지 게시판', '설정'];
   }
 
-  // BottomNavigationBar 아이템 탭 시 호출되는 함수
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index; // 선택된 인덱스 업데이트하여 화면 전환 트리거
+      _selectedIndex = index;
     });
   }
 
-  // 센서 카드 위젯을 구성하는 새로운 함수
+  // 센서 카드 위젯 (클릭 기능 추가, ZoneDetailPage로 변경)
   Widget _buildSensorCard(Sensor sensor) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 4.0),
-      padding: const EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        // boxShadow 제거
-        border: Border.all(color: Colors.grey.shade300, width: 1.0),
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 12,
-            height: 12,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: sensor.isConnected ? Colors.green : Colors.red,
-            ),
+    return InkWell(
+      onTap: () {
+        // ZoneDetailPage로 이동, sensor 객체 전달
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                ZoneDetailPage(sensor: sensor), // 👈 ZoneDetailPage 사용
           ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Text(
-              '${sensor.areaName} (${sensor.sensorNumber})',
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        );
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 4.0),
+        padding: const EdgeInsets.all(16.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.grey.shade300, width: 1.0),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 12,
+              height: 12,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: sensor.isConnected ? Colors.green : Colors.red,
+              ),
             ),
-          ),
-        ],
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                '${sensor.areaName} (${sensor.sensorNumber})',
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  // 진행 중인 사건 카드 위젯
+  // 진행 중인 사건 카드 위젯 (클릭 기능 유지)
   Widget _buildIncidentCard(VideoLog log) {
     Color statusColor;
     switch (log.status) {
@@ -149,52 +153,63 @@ class _MainPageState extends State<MainPage> {
       default:
         statusColor = Colors.green;
     }
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 4.0),
-      padding: const EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        // boxShadow 제거
-        border: Border.all(color: Colors.grey.shade300, width: 1.0),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                '${log.detectedArea} (${log.areaManager})',
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+    return InkWell(
+      onTap: () {
+        // 영상 기록 상세 페이지로 이동
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => VideoLogDetailPage(log: log)),
+        );
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 4.0),
+        padding: const EdgeInsets.all(16.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.grey.shade300, width: 1.0),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  '${log.detectedArea} (${log.areaManager})',
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: statusColor,
-                  borderRadius: BorderRadius.circular(20),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: statusColor,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    log.status,
+                    style: const TextStyle(color: Colors.white, fontSize: 12),
+                  ),
                 ),
-                child: Text(
-                  log.status,
-                  style: const TextStyle(color: Colors.white, fontSize: 12),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Text(
-            '감지 시간: ${DateFormat('yyyy-MM-dd HH:mm:ss').format(log.detectionTime)}',
-            style: const TextStyle(color: Colors.black54),
-          ),
-        ],
+              ],
+            ),
+            const SizedBox(height: 8),
+            Text(
+              '감지 시간: ${DateFormat('yyyy-MM-dd HH:mm:ss').format(log.detectionTime)}',
+              style: const TextStyle(color: Colors.black54),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  // 홈 페이지의 본문 위젯을 구성하는 새로운 함수
+  // 홈 페이지의 본문 위젯
   Widget _buildHomePage() {
     final List<Sensor> brokenSensors = _sensorList
         .where((sensor) => !sensor.isConnected)
@@ -206,20 +221,20 @@ class _MainPageState extends State<MainPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // 1. 센서 현황 섹션 (개별 박스로 변경)
+            // 1. 센서 현황 섹션
             const Text(
               '비정상 센서 현황',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             if (brokenSensors.isEmpty)
+              // 모든 센서가 정상일 때의 메시지 (클릭 기능 없음)
               Container(
                 padding: const EdgeInsets.all(16),
                 margin: const EdgeInsets.symmetric(vertical: 4.0),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
-                  // boxShadow 제거
                   border: Border.all(color: Colors.grey.shade300, width: 1.0),
                 ),
                 child: const Center(
@@ -244,19 +259,31 @@ class _MainPageState extends State<MainPage> {
             ),
             const SizedBox(height: 8),
             if (_ongoingIncidents.isEmpty)
-              Container(
-                padding: const EdgeInsets.all(16),
-                margin: const EdgeInsets.symmetric(vertical: 4.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  // boxShadow 제거
-                  border: Border.all(color: Colors.grey.shade300, width: 1.0),
-                ),
-                child: const Center(
-                  child: Text(
-                    '현재 진행 중인 사건이 없습니다.',
-                    style: TextStyle(fontSize: 16, color: Colors.green),
+              // 진행 중인 사건이 없을 때의 메시지 (클릭 가능)
+              InkWell(
+                onTap: () {
+                  // 영상 기록 전체 페이지로 이동
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const VideoLogPage(),
+                    ),
+                  );
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  margin: const EdgeInsets.symmetric(vertical: 4.0),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.grey.shade300, width: 1.0),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      '현재 진행 중인 사건이 없습니다.\n(전체 영상 기록 보기)',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 16, color: Colors.grey),
+                    ),
                   ),
                 ),
               )
@@ -266,50 +293,6 @@ class _MainPageState extends State<MainPage> {
                     .map((log) => _buildIncidentCard(log))
                     .toList(),
               ),
-            const SizedBox(height: 16),
-
-            // 3. 공지 게시판 요약
-            const Text(
-              '공지 게시판',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                // boxShadow 제거
-                border: Border.all(color: Colors.grey.shade300, width: 1.0),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: _notices
-                    .map(
-                      (notice) => Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 4.0),
-                        child: Row(
-                          children: [
-                            const Icon(
-                              Icons.volume_up,
-                              size: 18,
-                              color: Colors.blue,
-                            ),
-                            const SizedBox(width: 8),
-                            Expanded(
-                              child: Text(
-                                notice,
-                                style: const TextStyle(fontSize: 16),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
-                    .toList(),
-              ),
-            ),
           ],
         ),
       ),
@@ -364,9 +347,16 @@ class _MainPageState extends State<MainPage> {
       ),
       body: IndexedStack(index: _selectedIndex, children: _pages),
       bottomNavigationBar: Container(
-        // 하단바 그림자 효과는 유지
         decoration: BoxDecoration(
-          color: Colors.white, // 하단바와 같은 배경색 설정
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              spreadRadius: 0,
+              blurRadius: 2,
+              offset: const Offset(0, -5),
+            ),
+          ],
         ),
         child: BottomNavigationBar(
           backgroundColor: Colors.white,
