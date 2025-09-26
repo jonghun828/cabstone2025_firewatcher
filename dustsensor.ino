@@ -5,7 +5,6 @@
 
 const int dustLED = 14;     
 const int dustSensor = 34; 
-// ESP32 GPIO 34는 ADC1 채널 6입니다.
 
 // GP2Y10 측정 관련 상수 (데이터 시트 권장)
 const int GP2Y10_SAMPLING_TIME = 280; // μs: LED 켜고 대기 시간
