@@ -1,95 +1,87 @@
+// lib/pages/signup_page.dart
+
 import 'package:flutter/material.dart';
 
-// 회원가입 페이지
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
 
   @override
-  _SignupPageState createState() => _SignupPageState();
+  State<SignupPage> createState() => _SignupPageState();
 }
 
 class _SignupPageState extends State<SignupPage> {
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _adminCodeController = TextEditingController(); // 관리자 정보용
+  final TextEditingController _confirmPasswordController = TextEditingController();
 
   @override
   void dispose() {
     _emailController.dispose();
-    _usernameController.dispose();
     _passwordController.dispose();
-    _adminCodeController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
-  }
-
-  void _onSignUpPressed() {
-    final email = _emailController.text;
-    final username = _usernameController.text;
-    final password = _passwordController.text;
-    final adminCode = _adminCodeController.text;
-
-    print('이메일: $email, 아이디: $username, 비밀번호: $password, 관리자정보: $adminCode');
-
-    // 회원가입 성공 후 메인 화면으로 이동
-    Navigator.pushReplacementNamed(context, '/');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('회원가입'),
-        automaticallyImplyLeading: false,
+        title: const Text('회원가입'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(20.0),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
               controller: _emailController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: '이메일',
-                hintText: 'example@email.com',
                 border: OutlineInputBorder(),
               ),
               keyboardType: TextInputType.emailAddress,
             ),
-            SizedBox(height: 16),
-            TextField(
-              controller: _usernameController,
-              decoration: InputDecoration(
-                labelText: '아이디',
-                hintText: '사용할 아이디 입력',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            SizedBox(height: 16),
+            const SizedBox(height: 20),
             TextField(
               controller: _passwordController,
-              decoration: InputDecoration(
-                labelText: '비밀번호',
-                hintText: '비밀번호 입력',
-                border: OutlineInputBorder(),
-              ),
               obscureText: true,
-            ),
-            SizedBox(height: 16),
-            TextField(
-              controller: _adminCodeController,
-              decoration: InputDecoration(
-                labelText: '관리자 정보',
-                hintText: '관리자 코드 입력',
+              decoration: const InputDecoration(
+                labelText: '비밀번호',
                 border: OutlineInputBorder(),
               ),
             ),
-            SizedBox(height: 32),
+            const SizedBox(height: 20),
+            TextField(
+              controller: _confirmPasswordController,
+              obscureText: true,
+              decoration: const InputDecoration(
+                labelText: '비밀번호 확인',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 30),
             SizedBox(
               width: double.infinity,
               height: 50,
               child: ElevatedButton(
-                onPressed: _onSignUpPressed,
-                child: Text('회원가입'),
+                onPressed: () {
+                  // TODO: 회원가입 기능 구현
+                  print('회원가입 시도: ${_emailController.text}');
+                  Navigator.pop(context); // 회원가입 후 로그인 페이지로 돌아가기
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  elevation: 5,
+                  textStyle: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                child: const Text('회원가입'),
               ),
             ),
           ],

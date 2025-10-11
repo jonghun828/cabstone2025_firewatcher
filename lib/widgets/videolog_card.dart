@@ -42,7 +42,6 @@ class VideoLogCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
-          // 카드에 테두리 스타일 추가된 부분
           border: Border.all(color: Colors.grey.shade300, width: 1.0),
         ),
         child: Column(
