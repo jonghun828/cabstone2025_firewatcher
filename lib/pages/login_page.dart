@@ -25,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
   // 로그인 API 호출 메서드
   Future<void> _login() async {
     if (_usernameController.text.isEmpty || _passwordController.text.isEmpty) {
-      _showSnackBar('사용자 이름과 비밀번호를 입력해주세요.');
+      _showSnackBar('아이디와 비밀번호를 입력해주세요.');
       return;
     }
 
@@ -39,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
         password: _passwordController.text,
       );
 
-      // 응답 처리
+      //응답 처리
       if (response.statusCode == 200) {
         _showSnackBar('로그인 성공', isError: false);
 
@@ -55,6 +55,12 @@ class _LoginPageState extends State<LoginPage> {
       } else {
         _showSnackBar('로그인 실패: ${response.data?['message'] ?? '알 수 없는 오류'}');
       }
+      await Future.delayed(const Duration(seconds: 2)); // 2초간 로딩 시뮬레이션
+
+      // 임시 테스트
+      // _showSnackBar('로그인 성공! (UI 테스트용)', isError: false);
+      // Navigator.pushReplacementNamed(context, '/main');
+
     } catch (e) {
       // API 호출 중 오류
       _showSnackBar('오류 발생: ${e.toString()}');
@@ -114,7 +120,7 @@ class _LoginPageState extends State<LoginPage> {
               width: double.infinity,
               height: 50,
               child: ElevatedButton(
-                onPressed: _isLoading ? null : _login, // 로딩 중에는 버튼 비활성화, _login 메서드 연결
+                onPressed: _isLoading ? null : _login,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue,
                   foregroundColor: Colors.white,
@@ -127,7 +133,7 @@ class _LoginPageState extends State<LoginPage> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                child: _isLoading // 로딩 중일 때 로딩 인디케이터 표시
+                child: _isLoading
                     ? const CircularProgressIndicator(color: Colors.white)
                     : const Text('로그인'),
               ),
