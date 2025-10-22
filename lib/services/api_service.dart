@@ -85,4 +85,37 @@ class ApiService {
       throw Exception('An unexpected error occurred: $e');
     }
   }
+
+  // 공지작성 API 메서드
+  Future<Response> createNotice({
+    required String title,
+    required String content,
+    required bool important,
+  }) async {
+    try {
+      final response = await _dio.post(
+        '/notices',
+        data: {
+          "title": title,
+          "content": content,
+          "important": important,
+        },
+      );
+      return response;
+    } on DioException catch (e) {
+      if (e.response != null) {
+        print('Dio error (Server response) for createNotice!');
+        print('STATUS: ${e.response?.statusCode}');
+        print('DATA: ${e.response?.data}');
+        throw Exception('Failed to create notice: ${e.response?.data['message'] ?? e.message}');
+      } else {
+        print('Dio error (Request failed) for createNotice!');
+        print(e.message);
+        throw Exception('Network error or request failed: ${e.message}');
+      }
+    } catch (e) {
+      print('Unknown error during createNotice: $e');
+      throw Exception('An unexpected error occurred: ${e.toString()}');
+    }
+  }
 }

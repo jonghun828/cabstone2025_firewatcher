@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'notice_detail_page.dart';
+import 'notice_write_page.dart'; // 🚨 NoticeWritePage 임포트 추가
 import '../models/notice.dart';
 
 class NoticeBoardPage extends StatefulWidget {
@@ -13,6 +14,7 @@ class NoticeBoardPage extends StatefulWidget {
 }
 
 class _NoticeBoardPageState extends State<NoticeBoardPage> {
+  // 현재는 임시 데이터 리스트입니다. 나중에 API 연동 시 이 부분을 변경해야 합니다.
   final List<Notice> _notices = [
     Notice(
       id: 'n001',
@@ -53,6 +55,18 @@ class _NoticeBoardPageState extends State<NoticeBoardPage> {
     ),
   ];
 
+  // 🚨 공지사항을 추가하고 정렬하는 메서드 (NoticeWritePage에서 새 공지사항을 받아올 때 사용)
+  void _addNotice(Notice newNotice) {
+    setState(() {
+      _notices.add(newNotice);
+      // 최신 공지사항이 위로 오도록 날짜를 기준으로 내림차순 정렬
+      _notices.sort((a, b) => b.date.compareTo(a.date));
+      // isMajor가 true인 공지사항을 항상 맨 위로 올리려면 추가적인 정렬 로직이 필요합니다.
+      // 예시: _notices.sort((a, b) => (b.isMajor ? 1 : 0).compareTo(a.isMajor ? 1 : 0));
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +77,6 @@ class _NoticeBoardPageState extends State<NoticeBoardPage> {
           final notice = _notices[index];
           final String formattedDate = DateFormat('yyyy.MM.dd').format(notice.date);
 
-          // 🚨 Card 대신 InkWell + Container 조합으로 VideoLogCard와 유사하게 변경
           return InkWell(
             onTap: () {
               Navigator.push(
@@ -74,12 +87,12 @@ class _NoticeBoardPageState extends State<NoticeBoardPage> {
               );
             },
             child: Container(
-              margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 2.0), // VideoLogCard와 유사한 마진
-              padding: const EdgeInsets.all(16.0), // VideoLogCard와 유사한 패딩
+              margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 2.0),
+              padding: const EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                color: Colors.white, // 흰색 배경
-                borderRadius: BorderRadius.circular(12), // 둥근 모서리
-                border: Border.all(color: Colors.grey.shade300, width: 1.0), // 테두리
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.grey.shade300, width: 1.0),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -107,11 +120,10 @@ class _NoticeBoardPageState extends State<NoticeBoardPage> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 12), // 제목과 작성자/날짜 사이 간격
-                  const Divider(height: 1), // 🚨 VideoLogCard처럼 구분선 추가
-                  const SizedBox(height: 8), // 구분선 아래 간격
+                  const SizedBox(height: 12),
+                  const Divider(height: 1),
+                  const SizedBox(height: 8),
 
-                  // 작성자와 날짜를 한 줄에 표시 (VideoLogCard의 _buildInfoRow 방식 참고)
                   _buildInfoRow('작성자', notice.author),
                   _buildInfoRow('게시일', formattedDate),
                 ],
@@ -120,10 +132,28 @@ class _NoticeBoardPageState extends State<NoticeBoardPage> {
           );
         },
       ),
+      // 🚨 FloatingActionButton (공지 작성 버튼) 추가
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          // Navigator.push를 사용하여 NoticeWritePage로 이동하고,
+          // 새 공지사항이 작성되어 돌아오면 _addNotice를 호출합니다.
+          // 현재는 API를 통해 바로 저장되므로 Navigator.pop(context)만 하면 됩니다.
+          await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const NoticeWritePage(),
+            ),
+          );
+          // 🚨 TODO: 나중에 API에서 공지사항 목록을 다시 불러오는 로직이 필요합니다.
+        },
+        backgroundColor: Colors.blue, // 버튼 색상
+        foregroundColor: Colors.white, // 아이콘/텍스트 색상
+        child: const Icon(Icons.edit), // 추가 아이콘
+      ),
     );
   }
 
-  // 🚨 VideoLogCard의 _buildInfoRow를 참고하여 재사용 가능한 위젯 추가
+  // VideoLogCard의 _buildInfoRow를 참고하여 재사용 가능한 위젯 추가
   Widget _buildInfoRow(String title, String value) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
