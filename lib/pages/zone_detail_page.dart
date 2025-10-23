@@ -1,3 +1,5 @@
+// lib/pages/zone_detail_page.dart
+
 import 'package:flutter/material.dart';
 import '../models/sensor.dart';
 
@@ -13,7 +15,8 @@ class ZoneDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('${sensor.areaName} (${sensor.sensorNumber})'), // AppBar 타이틀에 구역 정보 표시
+        // 'A (C-1)' 형식으로 타이틀 표시 (사용자 요청에 따라 유지)
+        title: Text('${sensor.areaName} (${sensor.sensorNumber})'),
       ),
       body: Center(
         child: Padding(
@@ -33,6 +36,17 @@ class ZoneDetailPage extends StatelessWidget {
               const SizedBox(height: 8),
               Text(
                 '센서 번호: ${sensor.sensorNumber}',
+                style: const TextStyle(fontSize: 16),
+              ),
+              // 센서 유형, 설치 위치 등 정보 추가 (선택적)
+              const SizedBox(height: 8),
+              Text(
+                '기기 유형: ${sensor.sensorTypeName}', // 👈 Sensor 모델에 sensorTypeName getter 필요
+                style: const TextStyle(fontSize: 16),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                '설치 위치: ${sensor.locationName}',
                 style: const TextStyle(fontSize: 16),
               ),
               const SizedBox(height: 32),

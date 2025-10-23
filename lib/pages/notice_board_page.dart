@@ -1,8 +1,10 @@
+// lib/pages/notice_board_page.dart (VideoLogCard 디자인 참고하여 수정)
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../models/notice.dart';
-import '../models/comment.dart';
 import 'notice_detail_page.dart';
+import 'notice_write_page.dart'; // 🚨 NoticeWritePage 임포트 추가
+import '../models/notice.dart';
 
 class NoticeBoardPage extends StatefulWidget {
   const NoticeBoardPage({super.key});
@@ -12,157 +14,165 @@ class NoticeBoardPage extends StatefulWidget {
 }
 
 class _NoticeBoardPageState extends State<NoticeBoardPage> {
-  bool _isAdmin = true; // true: 관리자 false: 일반 관리자
-
-  // 임시 공지사항 데이터
-  List<Notice> _notices = [
+  // 현재는 임시 데이터 리스트입니다. 나중에 API 연동 시 이 부분을 변경해야 합니다.
+  final List<Notice> _notices = [
     Notice(
-      id: '1',
+      id: 'n001',
       title: '새로운 시스템 업데이트 안내 (v1.2.0)',
-      content:
-          '산불 감지 시스템에 새로운 업데이트가 적용되었습니다.\n주요 변경 사항:\n- UI 개선\n- 버그 수정\n많은 이용 부탁드립니다.\n1\n2\n3\n4\n5\n6\n7\n1\n2\n3\n4\n5\n6\n7',
+      content: '더 나은 서비스를 제공하기 위해 시스템 업데이트가 완료되었습니다. 주요 개선 사항은 다음과 같습니다:\n\n1. 새로운 구역 관리 기능 추가\n2. 센서 데이터 처리 속도 향상\n3. 사용자 인터페이스 개선\n\n자세한 내용은 공지사항을 참조해 주세요.',
       author: '관리자',
-      date: DateTime(2025, 8, 15, 10, 30),
-      comments: [
-        Comment(
-          id: 'c1',
-          author: '사용자A',
-          content: '기대됩니다!',
-          date: DateTime(2025, 8, 15, 11, 0),
-        ),
-        Comment(
-          id: 'c2',
-          author: '사용자B',
-          content: '수고하셨습니다.',
-          date: DateTime(2025, 8, 15, 11, 10),
-        ),
-      ],
+      date: DateTime(2023, 10, 26, 10, 0),
+      isMajor: true,
     ),
     Notice(
-      id: '2',
+      id: 'n002',
       title: '정기 점검으로 인한 서비스 일시 중단 안내',
-      content:
-          '더 나은 서비스 제공을 위해 정기 점검이 있을 예정입니다.\n일시: 2025년 8월 20일 03:00 ~ 05:00\n이용에 불편을 드려 죄송합니다.',
+      content: '시스템 안정화를 위한 정기 점검이 아래와 같이 진행될 예정입니다. 점검 시간 동안 일부 서비스 이용이 제한될 수 있으니 양해 부탁드립니다.\n\n- 점검 일시: 2023년 10월 28일 02:00 ~ 04:00 (2시간)\n- 점검 내용: 서버 안정화 및 보안 패치\n\n불편을 드려 죄송합니다. 항상 최선을 다하는 산불 감시 시스템이 되겠습니다.',
       author: '관리자',
-      date: DateTime(2025, 8, 10, 14, 0),
-      comments: [],
+      date: DateTime(2023, 10, 20, 15, 30),
+      isMajor: true,
     ),
     Notice(
-      id: '3',
+      id: 'n003',
       title: '화재 발생 시 대처 요령 공지',
-      content:
-          '만약 화재가 발생했을 경우, 침착하게 다음 요령을 따르세요...\n1. 119 신고\n2. 초기 소화\n3. 대피',
-      author: '관리자',
-      date: DateTime(2025, 8, 5, 9, 0),
-      comments: [
-        Comment(
-          id: 'c3',
-          author: '사용자C',
-          content: '유용한 정보 감사합니다.',
-          date: DateTime(2025, 8, 6, 9, 30),
-        ),
-      ],
+      content: '산불 발생 시 신속하고 안전한 대처를 위해 다음 요령을 숙지해 주시기 바랍니다.\n\n1. 즉시 119에 신고\n2. 안전한 장소로 대피\n3. 시스템 알림에 주의\n\n모두의 안전을 위해 최선을 다합시다.',
+      author: '안전팀',
+      date: DateTime(2023, 10, 15, 9, 0),
     ),
     Notice(
-      id: '4',
-      title: '화재 발생 시 대처 요령 공지',
-      content:
-          '만약 화재가 발생했을 경우, 침착하게 다음 요령을 따르세요...\n1. 119 신고\n2. 초기 소화\n3. 대피',
+      id: 'n004',
+      title: '개인정보처리방침 변경 안내',
+      content: '개인정보처리방침이 변경될 예정입니다. 변경 내용은 웹사이트에서 확인하실 수 있습니다.',
       author: '관리자',
-      date: DateTime(2025, 8, 5, 9, 0),
-      comments: [
-        Comment(
-          id: 'c3',
-          author: '사용자C',
-          content: '유용한 정보 감사합니다.',
-          date: DateTime(2025, 8, 6, 9, 30),
-        ),
-      ],
+      date: DateTime(2023, 10, 1, 17, 0),
     ),
     Notice(
-      id: '5',
-      title: '화재 발생 시 대처 요령 공지',
-      content:
-          '만약 화재가 발생했을 경우, 침착하게 다음 요령을 따르세요...\n1. 119 신고\n2. 초기 소화\n3. 대피',
-      author: '관리자',
-      date: DateTime(2025, 8, 5, 9, 0),
-      comments: [
-        Comment(
-          id: 'c3',
-          author: '사용자C',
-          content: '유용한 정보 감사합니다.',
-          date: DateTime(2025, 8, 6, 9, 30),
-        ),
-      ],
-    ),
-    Notice(
-      id: '6',
-      title: '화재 발생 시 대처 요령 공지',
-      content:
-          '만약 화재가 발생했을 경우, 침착하게 다음 요령을 따르세요...\n1. 119 신고\n2. 초기 소화\n3. 대피',
-      author: '관리자',
-      date: DateTime(2025, 8, 5, 9, 0),
-      comments: [
-        Comment(
-          id: 'c3',
-          author: '사용자C',
-          content: '유용한 정보 감사합니다.',
-          date: DateTime(2025, 8, 6, 9, 30),
-        ),
-      ],
+      id: 'n005',
+      title: '추석 연휴 고객센터 휴무 안내',
+      content: '추석 연휴 기간 동안 고객센터 운영이 중단됩니다. 서비스 이용에 참고하시기 바랍니다.',
+      author: '고객지원팀',
+      date: DateTime(2023, 9, 25, 12, 0),
     ),
   ];
+
+  // 🚨 공지사항을 추가하고 정렬하는 메서드 (NoticeWritePage에서 새 공지사항을 받아올 때 사용)
+  void _addNotice(Notice newNotice) {
+    setState(() {
+      _notices.add(newNotice);
+      // 최신 공지사항이 위로 오도록 날짜를 기준으로 내림차순 정렬
+      _notices.sort((a, b) => b.date.compareTo(a.date));
+      // isMajor가 true인 공지사항을 항상 맨 위로 올리려면 추가적인 정렬 로직이 필요합니다.
+      // 예시: _notices.sort((a, b) => (b.isMajor ? 1 : 0).compareTo(a.isMajor ? 1 : 0));
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('공지 게시판'),
-        automaticallyImplyLeading:
-            false,
-        actions: [
-          if (_isAdmin)
-            IconButton(
-              icon: const Icon(Icons.edit, size: 20.0),
-              onPressed: () {
-                print('새 공지 작성 버튼 클릭됨');
-                // TODO: 새 공지 작성 페이지로 이동
-              },
-            ),
-        ],
-      ),
-      body: ListView.separated(
+      body: ListView.builder(
         padding: const EdgeInsets.all(16.0),
         itemCount: _notices.length,
         itemBuilder: (context, index) {
           final notice = _notices[index];
-          return ListTile(
-            title: Text(
-              notice.title,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-            subtitle: Text(
-              '${notice.author} | ${DateFormat('yyyy.MM.dd HH:mm').format(notice.date)}',
-            ),
-            onTap: () async {
-              print('공지사항 "${notice.title}" 클릭됨');
-              final updatedNotice = await Navigator.push(
+          final String formattedDate = DateFormat('yyyy.MM.dd').format(notice.date);
+
+          return InkWell(
+            onTap: () {
+              Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => NoticeDetailPage(notice: notice),
                 ),
               );
-
-              // 상세 페이지에서 Notice 객체가 업데이트되었다면, 현재 목록 업데이트
-              if (updatedNotice != null && updatedNotice is Notice) {
-                setState(() {
-                  _notices[index] = updatedNotice;
-                });
-              }
             },
+            child: Container(
+              margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 2.0),
+              padding: const EdgeInsets.all(16.0),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.grey.shade300, width: 1.0),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // 주요 공지 아이콘
+                      if (notice.isMajor)
+                        const Padding(
+                          padding: EdgeInsets.only(right: 8.0, top: 2.0),
+                          child: Icon(Icons.push_pin, color: Colors.red, size: 18),
+                        ),
+                      Expanded(
+                        child: Text(
+                          notice.title,
+                          style: const TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black87,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  const Divider(height: 1),
+                  const SizedBox(height: 8),
+
+                  _buildInfoRow('작성자', notice.author),
+                  _buildInfoRow('게시일', formattedDate),
+                ],
+              ),
+            ),
           );
         },
-        separatorBuilder: (context, index) => const Divider(),
+      ),
+      // 🚨 FloatingActionButton (공지 작성 버튼) 추가
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          // Navigator.push를 사용하여 NoticeWritePage로 이동하고,
+          // 새 공지사항이 작성되어 돌아오면 _addNotice를 호출합니다.
+          // 현재는 API를 통해 바로 저장되므로 Navigator.pop(context)만 하면 됩니다.
+          await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const NoticeWritePage(),
+            ),
+          );
+          // 🚨 TODO: 나중에 API에서 공지사항 목록을 다시 불러오는 로직이 필요합니다.
+        },
+        backgroundColor: Colors.blue, // 버튼 색상
+        foregroundColor: Colors.white, // 아이콘/텍스트 색상
+        child: const Icon(Icons.edit), // 추가 아이콘
+      ),
+    );
+  }
+
+  // VideoLogCard의 _buildInfoRow를 참고하여 재사용 가능한 위젯 추가
+  Widget _buildInfoRow(String title, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: Row(
+        children: [
+          SizedBox(
+            width: 80, // 타이틀 너비 고정 (VideoLogCard와 유사하게)
+            child: Text(
+              '$title:',
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Colors.black87),
+            ),
+          ),
+          Expanded( // 값 텍스트가 길어질 경우를 대비해 Expanded 추가
+            child: Text(
+              value,
+              style: const TextStyle(fontSize: 14, color: Colors.black87),
+            ),
+          ),
+        ],
       ),
     );
   }

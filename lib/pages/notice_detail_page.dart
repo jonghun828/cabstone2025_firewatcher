@@ -52,6 +52,11 @@ class _NoticeDetailPageState extends State<NoticeDetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    // TextField의 기본 높이 및 패딩을 고려하여 버튼 높이 조정
+    // InputDecoration의 contentPadding 기본값 (12, 12) + 폰트 사이즈 (16) + 상하 여백 등
+    // 대략적인 TextField의 시각적 높이를 맞추기 위해 48-50 정도가 적당합니다.
+    const double desiredButtonHeight = 48.0; // TextField의 대략적인 높이에 맞춰 조정
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('공지 상세'),
@@ -102,19 +107,33 @@ class _NoticeDetailPageState extends State<NoticeDetailPage> {
                     decoration: const InputDecoration(
                       hintText: '댓글을 입력하세요...',
                       border: OutlineInputBorder(),
+                      // TextField의 contentPadding은 내부 텍스트와 보더 사이의 간격을 결정합니다.
                       contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     ),
+                    // TextField의 최소 높이 설정 (Optional)
+                    minLines: 1,
+                    maxLines: 1, // 한 줄 입력으로 고정
                   ),
                 ),
                 const SizedBox(width: 8),
 
                 // 등록 버튼
-                ElevatedButton(
-                  onPressed: _addComment,
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(80, 48),
+                SizedBox( // 👈 SizedBox로 감싸 명확한 높이 지정
+                  height: desiredButtonHeight, // 텍스트 필드 높이에 맞춤
+                  child: ElevatedButton(
+                    onPressed: _addComment,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                      foregroundColor: Colors.white,
+                      // minimumSize를 제거하고 SizedBox로 높이를 제어합니다.
+                      // minimumSize: const Size(80, 48), // 제거 또는 height: 0으로 설정
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    child: const Text('등록'),
                   ),
-                  child: const Text('등록'),
                 ),
               ],
             ),
@@ -134,9 +153,13 @@ class _NoticeDetailPageState extends State<NoticeDetailPage> {
                     itemCount: _currentNotice.comments.length,
                     itemBuilder: (context, index) {
                       final comment = _currentNotice.comments[index];
-                      return Card(
+                      return Container(
                         margin: const EdgeInsets.only(bottom: 12),
-                        elevation: 1,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: Colors.grey.shade300, width: 1.0),
+                        ),
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),
                           child: Column(
