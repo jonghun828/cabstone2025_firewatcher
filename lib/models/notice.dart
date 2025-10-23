@@ -1,5 +1,3 @@
-// lib/models/notice.dart
-
 import 'comment.dart';
 
 class Notice {
@@ -21,15 +19,12 @@ class Notice {
     required this.comments,
   });
 
-  // JSON 데이터를 Notice 객체로 변환
   factory Notice.fromJson(Map<String, dynamic> json) {
-    // 댓글 리스트 파싱
     final List<dynamic> commentList = json['comments'] ?? [];
     final List<Comment> parsedComments = commentList
         .map((commentJson) => Comment.fromJson(commentJson))
         .toList();
 
-    // 댓글 최신순 정렬 (ModifiedAt 기준)
     parsedComments.sort((a, b) => b.date.compareTo(a.date));
 
     return Notice(
@@ -43,7 +38,6 @@ class Notice {
     );
   }
 
-  // 객체 복사 (댓글 리스트 업데이트 등에 사용)
   Notice copyWith({
     List<Comment>? comments,
   }) {
