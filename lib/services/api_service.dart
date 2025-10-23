@@ -82,7 +82,7 @@ class ApiService {
           "password": password,
           "author": author,
           "email": email,
-          "phone_number": phoneNumber,
+          "phoneNumber": phoneNumber,
           "zone_id": zoneId,
         },
       );
@@ -129,6 +129,26 @@ class ApiService {
       return response;
     } on DioException catch (e) {
       throw _handleDioError(e, 'Failed to create notice');
+    }
+  }
+
+  // 댓글 작성 API 메서드
+  Future<Response> createComment({
+    required int noticeId,
+    required String content,
+  }) async {
+    try {
+      final response = await _dio.post(
+        '/notices/$noticeId/comments',
+        data: {
+          "content": content,
+        },
+      );
+      return response;
+    } on DioException catch (e) {
+      throw _handleDioError(e, 'Failed to create comment');
+    } catch (e) {
+      throw Exception('An unexpected error occurred during createComment: ${e.toString()}');
     }
   }
 

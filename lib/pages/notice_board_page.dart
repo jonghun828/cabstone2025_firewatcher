@@ -93,8 +93,8 @@ class _NoticeBoardPageState extends State<NoticeBoardPage> {
             ),
           );
 
-          // 공지 작성이 완료되면 목록을 다시 불러옴
-          if (result == true) {
+          // 공지 작성 후 목록을 다시 불러옴
+          if (result != null) {
             _loadNotices();
           }
         },
