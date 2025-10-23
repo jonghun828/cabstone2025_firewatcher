@@ -17,9 +17,6 @@ class _NoticeWritePageState extends State<NoticeWritePage> {
 
   final ApiService _apiService = ApiService();
   bool _isLoading = false;
-
-  final String _author = '관리자'; // TODO: 실제 앱에서는 로그인된 사용자 정보를 기반으로 작성자를 설정
-
   bool _isFormValid = false;
 
   @override
@@ -48,7 +45,7 @@ class _NoticeWritePageState extends State<NoticeWritePage> {
     }
   }
 
-  /// '주요 공지' 여부를 선택하는 다이얼로그를 표시합니다.
+  // 주요 공지
   Future<bool?> _showMajorNoticeSelectionDialog() async {
     return showDialog<bool>(
       context: context,
@@ -76,7 +73,7 @@ class _NoticeWritePageState extends State<NoticeWritePage> {
     );
   }
 
-  /// 새로운 공지사항을 생성하고 백엔드 API를 통해 저장합니다.
+  // 새로운 공지사항을 생성
   Future<void> _saveNotice() async {
     if (!_formKey.currentState!.validate()) {
       return;
@@ -85,7 +82,7 @@ class _NoticeWritePageState extends State<NoticeWritePage> {
     final bool? isMajorConfirmed = await _showMajorNoticeSelectionDialog();
 
     if (isMajorConfirmed == null) {
-      return; // 사용자가 다이얼로그를 취소하면 저장하지 않고 함수 종료
+      return;
     }
 
     setState(() {

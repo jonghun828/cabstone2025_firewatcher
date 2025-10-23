@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../services/api_service.dart';
 
 class LoginPage extends StatefulWidget {
@@ -14,6 +15,12 @@ class _LoginPageState extends State<LoginPage> {
 
   final ApiService _apiService = ApiService();
   bool _isLoading = false;
+
+  // 2. secure_storage 인스턴스 생성
+  final _storage = const FlutterSecureStorage();
+
+  // 토큰 저장을 위한 상수 키 정의
+  static const String ACCESS_TOKEN_KEY = 'access_token';
 
   @override
   void dispose() {
@@ -39,31 +46,37 @@ class _LoginPageState extends State<LoginPage> {
         password: _passwordController.text,
       );
 
-      //응답 처리
+      // 응답 처리
       if (response.statusCode == 200) {
-        _showSnackBar('로그인 성공', isError: false);
-
-        // 토큰을 저장하는 로직 필요
+        // 응답 데이터에서 'accessToken' 키의 토큰 추출
         final String? accessToken = response.data?['accessToken'];
+
         if (accessToken != null) {
-          print('로그인 성공! Access Token: $accessToken');
+          // 로그인 성공 시 토큰을 안전하게 저장
+          await _storage.write(key: ACCESS_TOKEN_KEY, value: accessToken);
+
+          _showSnackBar('로그인 성공!', isError: false);
+          print('로그인 성공! Access Token이 저장되었습니다.');
+
+          // 메인 페이지로 이동
+          Navigator.pushReplacementNamed(context, '/main');
+
         } else {
-          print('로그인 성공, 하지만 토큰이 없습니다.');
+          _showSnackBar('로그인 성공, 하지만 서버 응답에 토큰이 없습니다.', isError: true);
         }
-
-        Navigator.pushReplacementNamed(context, '/main');
       } else {
-        _showSnackBar('로그인 실패: ${response.data?['message'] ?? '알 수 없는 오류'}');
+        // 로그인 실패
+        _showSnackBar('로그인 실패: ${response.data?['message'] ?? '아이디 또는 비밀번호를 확인해주세요.'}');
       }
-      await Future.delayed(const Duration(seconds: 2)); // 2초간 로딩 시뮬레이션
+      await Future.delayed(const Duration(seconds: 2));
 
-      // 임시 테스트
+      // // 임시 테스트
       // _showSnackBar('로그인 성공! (UI 테스트용)', isError: false);
       // Navigator.pushReplacementNamed(context, '/main');
 
     } catch (e) {
       // API 호출 중 오류
-      _showSnackBar('오류 발생: ${e.toString()}');
+      _showSnackBar('오류 발생: 서버 연결 또는 처리 중 문제가 발생했습니다.');
       print('Login Error: $e');
     } finally {
       setState(() {
@@ -93,6 +106,7 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+
             // 아이디 입력창
             TextField(
               controller: _usernameController,
