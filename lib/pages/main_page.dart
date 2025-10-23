@@ -57,10 +57,13 @@ class _MainPageState extends State<MainPage> {
 
     if (index == 2) {
       if (noticeBoardKey.currentState != null) {
+        // ⭐️ loadNotices 호출 시, isInitialCall 인수를 주지 않습니다.
         noticeBoardKey.currentState!.loadNotices();
       }
     }
   }
+
+  // (나머지 _buildSensorCard, _buildIncidentCard, _buildHomePage 메서드는 동일)
 
   Widget _buildSensorCard(Sensor sensor) {
     return InkWell(
