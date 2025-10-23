@@ -8,7 +8,7 @@ class Notice {
   final String title;
   final String content;
   final bool isMajor;
-  final DateTime modifiedAt; // 최종 수정일
+  final DateTime modifiedAt;
   final List<Comment> comments;
 
   Notice({
@@ -29,7 +29,7 @@ class Notice {
         .map((commentJson) => Comment.fromJson(commentJson))
         .toList();
 
-    // 댓글 최신순 정렬 (서버에서 정렬되지 않아도 앱에서 정렬)
+    // 댓글 최신순 정렬 (ModifiedAt 기준)
     parsedComments.sort((a, b) => b.date.compareTo(a.date));
 
     return Notice(
@@ -38,7 +38,6 @@ class Notice {
       title: json['title'] as String,
       content: json['content'] as String,
       isMajor: json['important'] as bool,
-      // 최종 수정일 사용
       modifiedAt: DateTime.parse(json['modifiedAt'] as String),
       comments: parsedComments,
     );

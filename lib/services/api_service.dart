@@ -191,4 +191,15 @@ class ApiService {
       throw Exception('An unexpected error occurred during fetchNotices: ${e.toString()}');
     }
   }
+  // 단일 게시글 상세 정보 및 댓글 목록 조회
+  Future<Response> fetchNoticeDetail(int noticeId) async {
+    try {
+      final response = await _dio.get('/notices/$noticeId');
+      return response;
+    } on DioException catch (e) {
+      throw _handleDioError(e, 'Failed to fetch notice detail');
+    } catch (e) {
+      throw Exception('An unexpected error occurred during fetchNoticeDetail: ${e.toString()}');
+    }
+  }
 }

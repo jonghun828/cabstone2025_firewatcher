@@ -93,8 +93,8 @@ class _NoticeBoardPageState extends State<NoticeBoardPage> {
             ),
           );
 
-          // 공지 작성 후 목록을 다시 불러옴
-          if (result != null) {
+          // 공지 작성이 완료되면 (NoticeWritePage에서 true를 반환하면) 목록을 다시 불러옴
+          if (result == true) {
             _loadNotices();
           }
         },
@@ -144,6 +144,7 @@ class _NoticeBoardPageState extends State<NoticeBoardPage> {
 
         return InkWell(
           onTap: () {
+            // 상세 페이지 이동 시, 목록 갱신을 위해 돌아온 후 _loadNotices 호출
             Navigator.push(
               context,
               MaterialPageRoute(

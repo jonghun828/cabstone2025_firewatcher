@@ -29,6 +29,7 @@ class _NoticeDetailPageState extends State<NoticeDetailPage> {
   void initState() {
     super.initState();
     _currentNotice = widget.notice;
+    // 필요하다면 여기서 fetchNoticeDetail을 호출하여 최신 상세 정보를 가져올 수 있습니다.
   }
 
   @override
