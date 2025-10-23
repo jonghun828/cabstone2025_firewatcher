@@ -98,7 +98,7 @@ class _NoticeWritePageState extends State<NoticeWritePage> {
 
       if (response.statusCode == 201) {
         _showSnackBar('새 공지사항이 성공적으로 등록되었습니다.', isError: false);
-        Navigator.pop(context);
+        Navigator.pop(context, true);
       } else {
         final String errorMessage = response.data?['message'] ?? '공지 등록에 실패했습니다. (응답 코드: ${response.statusCode})';
         _showSnackBar(errorMessage, isError: true);
