@@ -14,8 +14,8 @@ class HomeSensorListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 💡 ZonePage에서 사용한 ID 매핑 로직을 재사용 (실제로는 API 응답에서 ID를 직접 받아야 함)
-    final Map<String, int> zoneMap = const {'A': 0, 'B': 1, 'C': 2, 'D': 3};
+    // Note: zoneMap은 이 위젯에서 필요 없지만, 이전 코드의 구조를 유지했습니다.
+    // final Map<String, int> zoneMap = const {'A': 0, 'B': 1, 'C': 2, 'D': 3};
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -25,7 +25,7 @@ class HomeSensorListWidget extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: SizedBox(
               height: 390.0,
-              child: Container(
+              child: Container( // 센서 현황 리스트
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
@@ -43,21 +43,20 @@ class HomeSensorListWidget extends StatelessWidget {
                   itemCount: sensorList.length,
                   itemBuilder: (context, index) {
                     final sensor = sensorList[index];
-                    final zoneId = zoneMap[sensor.areaName] ?? 0;
-                    final zoneName = sensor.areaName;
+                    // final zoneId = zoneMap[sensor.areaName] ?? 0;
+                    // final zoneName = sensor.areaName;
 
-                    return InkWell(
+                    return InkWell( // 카드 클릭 이벤트 처리
                       borderRadius: BorderRadius.circular(8),
                       onTap: () {
-                        // 💡 ZoneDetailPage로 이동 시 ID와 Name을 전달하도록 수정
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ZoneDetailPage(zoneId: zoneId, zoneName: zoneName),
+                            builder: (context) => ZoneDetailPage(sensor: sensor),
                           ),
                         );
                       },
-                      child: Card(
+                      child: Card( // 각 센서 항목
                         margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
                         elevation: 0,
                         shape: RoundedRectangleBorder(
@@ -67,7 +66,7 @@ class HomeSensorListWidget extends StatelessWidget {
                           padding: const EdgeInsets.all(12.0),
                           child: Row(
                             children: [
-                              Container(
+                              Container( // 연결 상태
                                 width: 12,
                                 height: 12,
                                 decoration: BoxDecoration(
