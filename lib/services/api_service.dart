@@ -202,4 +202,18 @@ class ApiService {
       throw Exception('An unexpected error occurred during fetchNoticeDetail: ${e.toString()}');
     }
   }
+
+  // zoneId에 해당하는 구역의 모든 장치 목록을 조회합니다.
+  Future<Response> fetchZoneSensors(int zoneId) async {
+    try {
+      final response = await _dio.get('/zone/$zoneId');
+      return response;
+    } on DioException catch (e) {
+      // Dio 오류 처리 로직
+      throw Exception('구역($zoneId) 센서 로드 실패: ${e.message}');
+    } catch (e) {
+      // 기타 예외 처리
+      throw Exception('예상치 못한 오류 발생: ${e.toString()}');
+    }
+  }
 }

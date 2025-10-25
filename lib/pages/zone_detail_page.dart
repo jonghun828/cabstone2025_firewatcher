@@ -15,7 +15,6 @@ class ZoneDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // 'A (C-1)' 형식으로 타이틀 표시 (사용자 요청에 따라 유지)
         title: Text('${sensor.areaName} (${sensor.sensorNumber})'),
       ),
       body: Center(
@@ -38,10 +37,9 @@ class ZoneDetailPage extends StatelessWidget {
                 '센서 번호: ${sensor.sensorNumber}',
                 style: const TextStyle(fontSize: 16),
               ),
-              // 센서 유형, 설치 위치 등 정보 추가 (선택적)
               const SizedBox(height: 8),
               Text(
-                '기기 유형: ${sensor.sensorTypeName}', // 👈 Sensor 모델에 sensorTypeName getter 필요
+                '기기 유형: ${sensor.sensorTypeName}',
                 style: const TextStyle(fontSize: 16),
               ),
               const SizedBox(height: 8),
@@ -50,7 +48,7 @@ class ZoneDetailPage extends StatelessWidget {
                 style: const TextStyle(fontSize: 16),
               ),
               const SizedBox(height: 32),
-              // TODO: 여기에 구역별 센서 상세 현황 (온도, 연기 농도 등) 및 실시간 영상 스트리밍 위젯 추가
+              // 상세 현황 및 실시간 영상 스트리밍 자리
               const Text(
                 '실시간 영상 및 센서 데이터',
                 textAlign: TextAlign.center,

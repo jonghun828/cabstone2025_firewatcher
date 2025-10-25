@@ -1,3 +1,5 @@
+// lib/pages/main_page.dart
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../models/videolog.dart';
@@ -21,6 +23,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
 
+  // 임시 센서 목록
   final List<Sensor> _sensorList = [
     Sensor(areaName: 'A', sensorNumber: 'C-1', locationName: '숲', sensorType: SensorType.camera, isConnected: false),
     Sensor(areaName: 'A', sensorNumber: 'C-2', locationName: '산책로', sensorType: SensorType.smokeSensor, isConnected: false),
@@ -40,6 +43,7 @@ class _MainPageState extends State<MainPage> {
   @override
   void initState() {
     super.initState();
+
     _pages = <Widget>[
       _buildHomePage(),
       const VideoLogPage(),
@@ -57,17 +61,15 @@ class _MainPageState extends State<MainPage> {
 
     if (index == 2) {
       if (noticeBoardKey.currentState != null) {
-        // ⭐️ loadNotices 호출 시, isInitialCall 인수를 주지 않습니다.
         noticeBoardKey.currentState!.loadNotices();
       }
     }
   }
 
-  // (나머지 _buildSensorCard, _buildIncidentCard, _buildHomePage 메서드는 동일)
-
   Widget _buildSensorCard(Sensor sensor) {
     return InkWell(
       onTap: () {
+        // ZoneDetailPage로 Sensor 객체 전달
         Navigator.push(context, MaterialPageRoute(builder: (context) => ZoneDetailPage(sensor: sensor)));
       },
       child: Container(
@@ -124,10 +126,12 @@ class _MainPageState extends State<MainPage> {
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           const Text('비정상 센서 현황', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
           const SizedBox(height: 8),
-          if (brokenSensors.isEmpty)
-            Container(padding: const EdgeInsets.all(16), margin: const EdgeInsets.symmetric(vertical: 4.0), decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12), border: Border.all(color: Colors.grey.shade300, width: 1.0)),
-                child: const Center(child: Text('모든 센서가 정상적으로 작동하고 있습니다.', style: TextStyle(fontSize: 16, color: Colors.green)))),
-          if (brokenSensors.isNotEmpty) Column(children: brokenSensors.map((sensor) => _buildSensorCard(sensor)).toList()),
+
+          brokenSensors.isEmpty
+              ? Container(padding: const EdgeInsets.all(16), margin: const EdgeInsets.symmetric(vertical: 4.0), decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12), border: Border.all(color: Colors.grey.shade300, width: 1.0)),
+              child: const Center(child: Text('모든 센서가 정상적으로 작동하고 있습니다.', style: TextStyle(fontSize: 16, color: Colors.green))))
+              : Column(children: brokenSensors.map((sensor) => _buildSensorCard(sensor)).toList()),
+
           const SizedBox(height: 16),
           const Text('진행 중인 사건', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
           const SizedBox(height: 8),
