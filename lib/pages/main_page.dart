@@ -69,7 +69,8 @@ class _MainPageState extends State<MainPage> {
   Widget _buildSensorCard(Sensor sensor) {
     return InkWell(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => const VideoStreamPage()));;
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const VideoStreamPage()));
+        //임시로 카메라 테스트 페이지로 이동하게끔 하였습니다. 추후에 원상복귀 예정.
       },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 4.0),
