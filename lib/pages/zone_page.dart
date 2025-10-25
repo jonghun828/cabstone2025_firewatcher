@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import '../models/sensor.dart';
-import '../widgets/sensor_card.dart';
 import '../services/api_service.dart';
 import 'zone_detail_page.dart';
 
@@ -30,6 +29,7 @@ class _ZonePageState extends State<ZonePage> {
     _fetchSensorsByZone();
   }
 
+  // API를 통해 선택된 구역의 센서 목록을 불러오는 함수
   Future<void> _fetchSensorsByZone() async {
     if (!mounted) return;
 
@@ -78,6 +78,7 @@ class _ZonePageState extends State<ZonePage> {
     }
   }
 
+  // 구역 선택 변경 핸들러
   void _onZoneSelectionChanged(Set<String> newSelection) {
     if (newSelection.isNotEmpty) {
       setState(() {
@@ -128,6 +129,7 @@ class _ZonePageState extends State<ZonePage> {
     );
   }
 
+  // 센서 목록 UI 빌더
   Widget _buildSensorListContent() {
     if (_isLoading) {
       return const Center(child: CircularProgressIndicator());
@@ -150,24 +152,40 @@ class _ZonePageState extends State<ZonePage> {
       return Center(child: Text('${_selectedZoneName.first} 구역에 등록된 장치가 없습니다.'));
     }
 
-    // 목록 (카드 형태) 표시
+    // 목록 (Card와 ListTile 사용) 표시
     return ListView.builder(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       itemCount: _filteredSensors.length,
       itemBuilder: (context, index) {
         final sensor = _filteredSensors[index];
+
         return InkWell(
-          child: SensorCard(
-            sensor: sensor,
-            onTap: () {
-              // 목록 클릭 시 상세 페이지로 이동
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ZoneDetailPage(sensor: sensor),
-                ),
-              );
-            },
+          onTap: () {
+            // 상세 페이지로 Sensor 객체 전달
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ZoneDetailPage(sensor: sensor),
+              ),
+            );
+          },
+          child: Card(
+            margin: const EdgeInsets.symmetric(vertical: 6.0),
+            elevation: 1,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            child: ListTile(
+              // 제목: areaName 사용 (이름 중복 문제 해결)
+              title: Text(
+                sensor.areaName,
+                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              ),
+              // 부제 제거됨
+              leading: Icon(
+                sensor.isConnected ? Icons.check_circle : Icons.error,
+                color: sensor.isConnected ? Colors.green : Colors.red,
+              ),
+              trailing: const Icon(Icons.chevron_right, color: Colors.grey),
+            ),
           ),
         );
       },
