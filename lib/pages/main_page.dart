@@ -1,3 +1,4 @@
+import 'package:cabstone2025_firewatcher/pages/video_test_page.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../models/videolog.dart';
@@ -68,7 +69,7 @@ class _MainPageState extends State<MainPage> {
   Widget _buildSensorCard(Sensor sensor) {
     return InkWell(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => ZoneDetailPage(sensor: sensor)));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const VideoStreamPage()));;
       },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 4.0),
