@@ -7,6 +7,7 @@ class Notice {
   final String author;          // 작성자
   final DateTime date;          // 작성일시
   final List<Comment> comments; // 해당 게시글에 달린 댓글 리스트
+  final bool isMajor;           // 주요 공지 여부
 
   const Notice({
     required this.id,
@@ -15,6 +16,7 @@ class Notice {
     required this.author,
     required this.date,
     this.comments = const [],
+    this.isMajor = false,
   });
 
   Notice copyWith({
@@ -24,6 +26,7 @@ class Notice {
     String? author,
     DateTime? date,
     List<Comment>? comments,
+    bool? isMajor,
   }) {
     return Notice(
       id: id ?? this.id,
@@ -32,6 +35,7 @@ class Notice {
       author: author ?? this.author,
       date: date ?? this.date,
       comments: comments ?? this.comments,
+      isMajor: isMajor ?? this.isMajor,
     );
   }
 }

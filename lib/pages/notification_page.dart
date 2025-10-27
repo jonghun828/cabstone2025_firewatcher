@@ -104,7 +104,7 @@ class _NotificationPageState extends State<NotificationPage> {
       body: _notifications.isEmpty
           ? const Center(child: Text('도착한 알림이 없습니다.'))
           : ListView.separated(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
               itemCount: _notifications.length,
               separatorBuilder: (context, index) => const Divider(height: 1),
               itemBuilder: (context, index) {
