@@ -93,11 +93,49 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            RichText(text: TextSpan(
+              children: [
+                TextSpan(text:'Wildfire ',
+                    style:TextStyle(
+                        fontSize: 30,
+                        fontFamily: 'Irish Grover',
+                        color: Colors.black)
+                ),
+                TextSpan(text:'watcher',
+                    style:TextStyle(
+                        fontSize: 30,
+                        fontFamily: 'Irish Grover',
+                        color: Colors.green)
+                ),
+              ],
+            ),
+            ),
+            const SizedBox(height: 100),
+            Text('로그인',
+            style:TextStyle(
+              color: Colors.black,
+              fontSize: 16,
+              fontFamily: 'Inter',
+              fontWeight: FontWeight.bold,
+            ),
+            ),
+            Text('이메일과 비밀번호를 입력하세요',
+              style:TextStyle(
+                color: Colors.grey,
+                fontSize: 16,
+                fontFamily: 'Inter',
+              ),
+            ),
+            const SizedBox(height: 20),
             // 아이디 입력창
             TextField(
               controller: _usernameController,
               decoration: const InputDecoration(
                 labelText: '아이디',
+                labelStyle: TextStyle(
+                  color: Colors.grey,
+                  fontFamily: 'Inter',
+                ),
                 border: OutlineInputBorder(),
               ),
               keyboardType: TextInputType.text,
@@ -110,6 +148,10 @@ class _LoginPageState extends State<LoginPage> {
               obscureText: true,
               decoration: const InputDecoration(
                 labelText: '비밀번호',
+                labelStyle: TextStyle(
+                  color: Colors.grey,
+                  fontFamily: 'Inter',
+                ),
                 border: OutlineInputBorder(),
               ),
             ),
@@ -122,7 +164,7 @@ class _LoginPageState extends State<LoginPage> {
               child: ElevatedButton(
                 onPressed: _isLoading ? null : _login,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
+                  backgroundColor: Colors.black,
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
@@ -130,6 +172,7 @@ class _LoginPageState extends State<LoginPage> {
                   elevation: 5,
                   textStyle: const TextStyle(
                     fontSize: 18,
+                    fontFamily: 'Inter',
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -139,19 +182,54 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             const SizedBox(height: 10),
+            Container(
+              child:Row(
+                children: [
+                  Expanded(child: Container(
+                    height: 1,
+                    decoration: BoxDecoration(color: Colors.grey),
+                  ),
+                  ),
+                  Text('또는',
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontFamily: 'Inter',
+                    ),
+                  ),
+                  Expanded(child: Container(
+                    height: 1,
+                    decoration: BoxDecoration(color: Colors.grey),
+                  ),
+                  ),
 
-            // 회원가입 버튼
-            TextButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/signup');
-              },
-              style: TextButton.styleFrom(
-                foregroundColor: Colors.black87,
-                textStyle: const TextStyle(
-                  fontSize: 16,
+                ],
+
+            ),
+            ),
+            const SizedBox(height: 10),
+            //회원가입 버튼
+            SizedBox(
+              width: double.infinity,
+              height: 50,
+              child: ElevatedButton(
+                onPressed: (){
+                  Navigator.pushNamed(context, '/signup');
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white60,
+                  foregroundColor: Colors.black,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  elevation: 5,
+                  textStyle: const TextStyle(
+                    fontSize: 18,
+                    fontFamily: 'Inter',
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
+                child: const Text('회원가입'),
               ),
-              child: const Text('회원가입'),
             ),
           ],
         ),

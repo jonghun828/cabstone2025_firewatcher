@@ -112,16 +112,30 @@ class _SignupPageState extends State<SignupPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('회원가입'),
       ),
+
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
+            Text(
+              '회원가입',
+              style:TextStyle(
+                color: Colors.black,
+                fontSize: 36,
+                fontFamily: 'Inter',
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 40),
             TextField(
               controller: _usernameController,
               decoration: const InputDecoration(
                 labelText: '아이디',
+                labelStyle: TextStyle(
+                  color: Colors.grey,
+                  fontFamily: 'Inter',
+                ),
                 border: OutlineInputBorder(),
               ),
             ),
@@ -131,6 +145,10 @@ class _SignupPageState extends State<SignupPage> {
               obscureText: true,
               decoration: const InputDecoration(
                 labelText: '비밀번호',
+                labelStyle: TextStyle(
+                  color: Colors.grey,
+                  fontFamily: 'Inter',
+                ),
                 border: OutlineInputBorder(),
               ),
             ),
@@ -140,6 +158,10 @@ class _SignupPageState extends State<SignupPage> {
               obscureText: true,
               decoration: const InputDecoration(
                 labelText: '비밀번호 확인',
+                labelStyle: TextStyle(
+                  color: Colors.grey,
+                  fontFamily: 'Inter',
+                ),
                 border: OutlineInputBorder(),
               ),
             ),
@@ -148,6 +170,10 @@ class _SignupPageState extends State<SignupPage> {
               controller: _authorController,
               decoration: const InputDecoration(
                 labelText: '이름',
+                labelStyle: TextStyle(
+                  color: Colors.grey,
+                  fontFamily: 'Inter',
+                ),
                 border: OutlineInputBorder(),
               ),
             ),
@@ -156,6 +182,10 @@ class _SignupPageState extends State<SignupPage> {
               controller: _emailController,
               decoration: const InputDecoration(
                 labelText: '이메일',
+                labelStyle: TextStyle(
+                  color: Colors.grey,
+                  fontFamily: 'Inter',
+                ),
                 border: OutlineInputBorder(),
               ),
               keyboardType: TextInputType.emailAddress,
@@ -165,6 +195,10 @@ class _SignupPageState extends State<SignupPage> {
               controller: _phoneNumberController,
               decoration: const InputDecoration(
                 labelText: '전화번호 (예: 01012345678)',
+                labelStyle: TextStyle(
+                  color: Colors.grey,
+                  fontFamily: 'Inter',
+                ),
                 border: OutlineInputBorder(),
               ),
               keyboardType: TextInputType.phone,
@@ -174,6 +208,10 @@ class _SignupPageState extends State<SignupPage> {
               controller: _zoneIdController,
               decoration: const InputDecoration(
                 labelText: '구역 ID (숫자)',
+                labelStyle: TextStyle(
+                  color: Colors.grey,
+                  fontFamily: 'Inter',
+                ),
                 border: OutlineInputBorder(),
               ),
               keyboardType: TextInputType.number,
@@ -185,7 +223,7 @@ class _SignupPageState extends State<SignupPage> {
               child: ElevatedButton(
                 onPressed: _isLoading ? null : _signup,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
+                  backgroundColor: Colors.black,
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
@@ -193,6 +231,7 @@ class _SignupPageState extends State<SignupPage> {
                   elevation: 5,
                   textStyle: const TextStyle(
                     fontSize: 18,
+                    fontFamily: 'Inter',
                     fontWeight: FontWeight.bold,
                   ),
                 ),
