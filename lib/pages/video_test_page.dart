@@ -6,9 +6,12 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/html.dart';
 
+import '../models/sensor.dart';
+
 class VideoStreamPage extends StatefulWidget {
+  final Sensor sensor;
   const VideoStreamPage({
-    Key? key,
+    Key? key, required this.sensor,
   }) : super(key: key);
 
 
@@ -23,7 +26,7 @@ class _VideoStreamPageState extends State<VideoStreamPage> {
   @override
   void initState() {
     super.initState();
-    final url = 'ws://localhost:8764/cam1';
+    final url = 'ws://localhost:8765';
     channel = kIsWeb
         ? HtmlWebSocketChannel.connect(url)
         : IOWebSocketChannel.connect(url);

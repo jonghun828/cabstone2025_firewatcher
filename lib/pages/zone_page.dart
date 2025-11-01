@@ -166,7 +166,7 @@ class _ZonePageState extends State<ZonePage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => VideoStreamPage(),
+                builder: (context) => VideoStreamPage(sensor: ),
               ),
             );
           },
