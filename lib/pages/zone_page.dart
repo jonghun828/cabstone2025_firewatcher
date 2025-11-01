@@ -1,5 +1,6 @@
 // lib/pages/zone_page.dart
 
+import 'package:cabstone2025_firewatcher/pages/video_test_page.dart';
 import 'package:flutter/material.dart';
 import '../models/sensor.dart';
 import '../services/api_service.dart';
@@ -165,7 +166,7 @@ class _ZonePageState extends State<ZonePage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => Video,
+                builder: (context) => VideoStreamPage(),
               ),
             );
           },
