@@ -1,4 +1,4 @@
-// lib/pages/videolog_detail_page.dart (타임라인 기능 복원)
+// lib/pages/videolog_detail_page.dart
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -9,19 +9,7 @@ class VideoLogDetailPage extends StatelessWidget {
 
   const VideoLogDetailPage({super.key, required this.log});
 
-  // 심각도에 따른 색상 반환 헬퍼 함수 (이전 코드 유지)
-  Color _getSeverityColor(Severity severity) {
-    switch (severity) {
-      case Severity.low:
-        return Colors.green;
-      case Severity.medium:
-        return Colors.orange;
-      case Severity.high:
-        return Colors.red;
-    }
-  }
-
-  // 상태에 따른 색상 반환 헬퍼 함수 (이전 코드 유지)
+  // 상태에 따른 색상 반환 헬퍼 함수
   Color _getStatusColor(String status) {
     switch (status) {
       case '감지':
@@ -37,7 +25,7 @@ class VideoLogDetailPage extends StatelessWidget {
     }
   }
 
-  // 정보 표시를 위한 재사용 가능한 Row 위젯 (이전 코드 유지)
+  // 정보 표시를 위한 재사용 가능한 Row 위젯
   Widget _buildInfoRow(String title, String value, {Color? valueColor}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -62,7 +50,7 @@ class VideoLogDetailPage extends StatelessWidget {
     );
   }
 
-  // 🚨 타임라인 단계 위젯 (파란색 선, 체크 아이콘, 시간 표기)
+  // 타임라인 단계 위젯
   Widget _buildTimelineStep({
     required String title,
     required DateTime time,
@@ -125,21 +113,28 @@ class VideoLogDetailPage extends StatelessWidget {
     );
   }
 
-  // 🚨 가상 타임라인 데이터 생성 함수
+  // 🚨 타임라인 데이터 생성 함수 (2단계)
   List<Map<String, dynamic>> _generateTimeline() {
-    // 실제 데이터가 없으므로, 현재 상태를 기준으로 가상의 시간차를 적용합니다.
     final DateTime detectionTime = log.detectionTime;
     final String currentStatus = log.status;
 
     final List<Map<String, dynamic>> steps = [
-      {'title': '감지', 'time': detectionTime},
-      {'title': '처리중', 'time': detectionTime.add(const Duration(minutes: 5))},
+      {'title': '감지', 'time': detectionTime, 'isComplete': true}, // 감지는 항상 완료
     ];
 
+    // 완료 또는 오인 상태일 경우, 두 번째 단계를 해당 상태로 완료 표시
     if (currentStatus == '완료' || currentStatus == '오인') {
       steps.add({
-        'title': currentStatus,
-        'time': detectionTime.add(const Duration(minutes: 15))
+        'title': currentStatus, // 완료 또는 오인
+        'time': detectionTime.add(const Duration(minutes: 15)), // 임의의 완료 시간
+        'isComplete': true,
+      });
+    } else {
+       // 처리중이거나 감지 상태일 경우, 완료/오인은 미완료로 표시
+       steps.add({
+        'title': '완료/오인',
+        'time': detectionTime.add(const Duration(minutes: 15)),
+        'isComplete': false,
       });
     }
 
@@ -149,7 +144,6 @@ class VideoLogDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<Map<String, dynamic>> timelineSteps = _generateTimeline();
-    final String currentStatus = log.status;
 
     return Scaffold(
       appBar: AppBar(
@@ -160,29 +154,13 @@ class VideoLogDetailPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ... (기존 정보 표시 부분 유지)
-            // 감지된 구역 및 심각도 표시
+            // 감지된 구역 (심각도 삭제됨)
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   log.detectedArea,
                   style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: _getSeverityColor(log.severity).withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: _getSeverityColor(log.severity)),
-                  ),
-                  child: Text(
-                    log.severity.toString().split('.').last.toUpperCase(),
-                    style: TextStyle(
-                      color: _getSeverityColor(log.severity),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
                 ),
               ],
             ),
@@ -226,35 +204,25 @@ class VideoLogDetailPage extends StatelessWidget {
             ),
             const SizedBox(height: 20),
 
-            // 🚨 진행 상황 타임라인 섹션
+            // 사건 처리 진행 상황 타임라인 섹션
             const Text(
               '사건 처리 진행 상황',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 15),
 
-            // 타임라인 단계들을 렌더링
+            // 타임라인 단계 렌더링
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: timelineSteps.map((step) {
                 final int index = timelineSteps.indexOf(step);
                 final bool isLast = index == timelineSteps.length - 1;
-
-                // 현재 상태와 타임라인 단계를 비교하여 완료 여부 결정
-                bool isComplete;
-                if (currentStatus == '완료' || currentStatus == '오인') {
-                    isComplete = true; // 최종 상태가 '완료'나 '오인'이면 모든 이전 단계는 완료
-                } else if (currentStatus == '처리중') {
-                    isComplete = (step['title'] != '처리중' && step['title'] != '감지'); // '감지'만 완료
-                    if (step['title'] == '감지') isComplete = true; // '감지'는 완료
-                } else { // '감지' 상태일 경우
-                    isComplete = step['title'] == '감지';
-                }
+                final bool isStepComplete = step['isComplete'] as bool;
 
                 return _buildTimelineStep(
                   title: step['title'] as String,
                   time: step['time'] as DateTime,
-                  isComplete: isComplete,
+                  isComplete: isStepComplete,
                   isLast: isLast,
                 );
               }).toList(),
@@ -264,16 +232,11 @@ class VideoLogDetailPage extends StatelessWidget {
             const Divider(),
             const SizedBox(height: 20),
 
-            // 상세 정보 (이전 코드 유지)
+            // 상세 정보
             _buildInfoRow('사건 번호', '#${log.incidentNumber}'),
             _buildInfoRow('감지기 유형', log.detectorType.toString().split('.').last),
-            _buildInfoRow('감지기 번호', log.detectorNumber.toString()),
-            _buildInfoRow('담당 관리자', log.areaManager),
-            _buildInfoRow(
-              '실제 화재 여부',
-              log.isRealFire ? '실제 화재' : '오인 감지',
-              valueColor: log.isRealFire ? Colors.red : Colors.green,
-            ),
+            // 💡 주석 처리: 담당 관리자 정보는 현재 API에 없어 잠시 숨김
+            // _buildInfoRow('담당 관리자', log.areaManager),
           ],
         ),
       ),

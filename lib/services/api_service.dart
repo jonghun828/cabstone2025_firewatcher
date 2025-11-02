@@ -216,4 +216,17 @@ class ApiService {
       throw Exception('예상치 못한 오류 발생: ${e.toString()}');
     }
   }
+
+  // 사건 기록 목록 데이터 조회
+    Future<Response> fetchIncidents() async {
+      try {
+        // 엔드포인트: /incident
+        final response = await _dio.get('/incident');
+        return response;
+      } on DioException catch (e) {
+        throw _handleDioError(e, 'Failed to fetch incident records');
+      } catch (e) {
+        throw Exception('An unexpected error occurred during fetchIncidents: ${e.toString()}');
+      }
+    }
 }
