@@ -6,16 +6,10 @@ import 'package:dio/dio.dart';
 import '../models/videolog.dart';
 import '../widgets/videolog_card.dart';
 import 'videolog_detail_page.dart';
-import '../services/api_service.dart'; // ApiService 임포트
+import '../services/api_service.dart';
 
-class VideoLogPage extends StatefulWidget {
-  const VideoLogPage({super.key});
-
-  @override
-  State<VideoLogPage> createState() => _VideoLogPageState();
-}
-
-class _VideoLogPageState extends State<VideoLogPage> {
+// 🚨 WidgetsBindingObserver 믹스인 추가
+class _VideoLogPageState extends State<VideoLogPage> with WidgetsBindingObserver {
   final ApiService _apiService = ApiService();
 
   List<VideoLog> _videoLogs = [];
@@ -25,11 +19,33 @@ class _VideoLogPageState extends State<VideoLogPage> {
   @override
   void initState() {
     super.initState();
+    // 1. 앱 라이프사이클 옵저버 등록
+    WidgetsBinding.instance.addObserver(this);
     _fetchLogs();
   }
 
-  // API 호출 및 데이터 변환 로직
+  @override
+  void dispose() {
+    // 2. 앱 라이프사이클 옵저버 해제
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  // 🚨 3. 라이프사이클 상태 변경 감지 메서드 추가
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+
+    // 상태가 'resumed' (다른 화면에서 이 화면으로 돌아옴) 일 때 데이터 다시 불러오기
+    if (state == AppLifecycleState.resumed) {
+      print("VideoLogPage resumed. Refreshing data.");
+      _fetchLogs();
+    }
+  }
+
+  // API 호출 및 데이터 변환 로직 (기존과 동일)
   Future<void> _fetchLogs() async {
+    // ... (API 호출 및 데이터 처리 로직은 기존과 동일)
     setState(() {
       _isLoading = true;
       _error = null;
@@ -51,7 +67,6 @@ class _VideoLogPageState extends State<VideoLogPage> {
 
     } on DioException catch (e) {
        setState(() {
-         // ApiService의 _handleDioError에서 던진 메시지 사용
          _error = e.message;
          _isLoading = false;
        });
@@ -63,7 +78,7 @@ class _VideoLogPageState extends State<VideoLogPage> {
     }
   }
 
-  // JSON 데이터를 VideoLog 모델 객체로 변환하는 핵심 로직
+  // JSON 데이터를 VideoLog 모델 객체로 변환하는 핵심 로직 (기존과 동일)
   VideoLog _mapJsonToVideoLog(Map<String, dynamic> json) {
     // 1. 구역 이름 변환 (area_id -> A/B/C/D)
     String getAreaName(int areaId, String zoneName) {
@@ -73,7 +88,6 @@ class _VideoLogPageState extends State<VideoLogPage> {
 
     // 2. 진행 상황 변환 (isIncidentResolved -> 감지/완료)
     String getStatus(bool isResolved) {
-      // '처리중' 상태가 API에 명시되지 않아 '감지' 또는 '완료'로만 처리
       return isResolved ? '완료' : '감지';
     }
 
@@ -92,21 +106,18 @@ class _VideoLogPageState extends State<VideoLogPage> {
       detectionTime = DateTime.now();
     }
 
-    // 5. 기타 임시값 및 매핑 (JSON에 없는 항목 처리)
+    // 5. 기타 임시값 및 매핑
     Severity severity = json['incidentType'] == 'fire' ? Severity.high : Severity.medium;
-
-    // 💡 담당자 정보 (areaManager)는 현재 API에 없으므로 빈 문자열 할당 후 상세 페이지에서 주석 처리
     String areaManager = '';
-
     bool isRealFire = json['incidentType'] == 'fire';
 
     return VideoLog(
       incidentNumber: json['id'] as int,
       detectedArea: getAreaName(json['area_id'] as int, json['zone_name'] as String),
       detectorType: getDetectorType(json['deviceType'] as String),
-      detectorNumber: json['zone_id'] as int, // 임시로 zone_id 사용
+      detectorNumber: json['zone_id'] as int,
       severity: severity,
-      areaManager: areaManager, // 빈 문자열 할당
+      areaManager: areaManager,
       detectionTime: detectionTime,
       status: getStatus(json['isIncidentResolved'] as bool),
       isRealFire: isRealFire,

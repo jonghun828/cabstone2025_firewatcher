@@ -9,7 +9,7 @@ class VideoLogDetailPage extends StatelessWidget {
 
   const VideoLogDetailPage({super.key, required this.log});
 
-  // 상태에 따른 색상 반환 헬퍼 함수
+  // 상태에 따른 색상 반환 헬퍼 함수 (오인도 완료와 동일하게 초록색 처리)
   Color _getStatusColor(String status) {
     switch (status) {
       case '감지':
@@ -17,9 +17,8 @@ class VideoLogDetailPage extends StatelessWidget {
       case '처리중':
         return Colors.blue;
       case '완료':
-        return Colors.green;
       case '오인':
-        return Colors.grey;
+        return Colors.green;
       default:
         return Colors.black;
     }
@@ -113,7 +112,7 @@ class VideoLogDetailPage extends StatelessWidget {
     );
   }
 
-  // 🚨 타임라인 데이터 생성 함수 (2단계)
+  // 타임라인 데이터 생성 함수 (2단계: 감지 -> 완료)
   List<Map<String, dynamic>> _generateTimeline() {
     final DateTime detectionTime = log.detectionTime;
     final String currentStatus = log.status;
@@ -122,17 +121,17 @@ class VideoLogDetailPage extends StatelessWidget {
       {'title': '감지', 'time': detectionTime, 'isComplete': true}, // 감지는 항상 완료
     ];
 
-    // 완료 또는 오인 상태일 경우, 두 번째 단계를 해당 상태로 완료 표시
+    // 완료 또는 오인 상태일 경우, 두 번째 단계를 '완료'로 완료 표시
     if (currentStatus == '완료' || currentStatus == '오인') {
       steps.add({
-        'title': currentStatus, // 완료 또는 오인
+        'title': '완료',
         'time': detectionTime.add(const Duration(minutes: 15)), // 임의의 완료 시간
         'isComplete': true,
       });
     } else {
-       // 처리중이거나 감지 상태일 경우, 완료/오인은 미완료로 표시
+       // 처리중이거나 감지 상태일 경우, 완료는 미완료로 표시
        steps.add({
-        'title': '완료/오인',
+        'title': '완료',
         'time': detectionTime.add(const Duration(minutes: 15)),
         'isComplete': false,
       });
@@ -154,7 +153,7 @@ class VideoLogDetailPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // 감지된 구역 (심각도 삭제됨)
+            // 감지된 구역
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -235,7 +234,7 @@ class VideoLogDetailPage extends StatelessWidget {
             // 상세 정보
             _buildInfoRow('사건 번호', '#${log.incidentNumber}'),
             _buildInfoRow('감지기 유형', log.detectorType.toString().split('.').last),
-            // 💡 주석 처리: 담당 관리자 정보는 현재 API에 없어 잠시 숨김
+            // 담당 관리자 정보는 현재 API에 없어 잠시 숨김
             // _buildInfoRow('담당 관리자', log.areaManager),
           ],
         ),
