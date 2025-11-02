@@ -14,6 +14,7 @@ class Sensor {
   final String locationName;
   final SensorType sensorType;
   final bool isConnected;
+  final String areaIpAddress;
 
   Sensor({
     required this.areaName,
@@ -21,6 +22,7 @@ class Sensor {
     required this.locationName,
     required this.sensorType,
     required this.isConnected,
+    required this.areaIpAddress
   });
 
   factory Sensor.fromJson(Map<String, dynamic> json) {
@@ -43,6 +45,7 @@ class Sensor {
       locationName: json['areaName'] as String? ?? 'N/A',
       sensorType: parseSensorType(deviceTypeStr),
       isConnected: isConnected,
+      areaIpAddress: json['areaIpAddress'] as String? ?? 'N/A',
     );
   }
 
