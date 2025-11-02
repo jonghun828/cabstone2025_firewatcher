@@ -4,7 +4,6 @@ import 'package:cabstone2025_firewatcher/pages/video_test_page.dart';
 import 'package:flutter/material.dart';
 import '../models/sensor.dart';
 import '../services/api_service.dart';
-import 'zone_detail_page.dart';
 
 class ZonePage extends StatefulWidget {
   const ZonePage({super.key});
@@ -30,7 +29,6 @@ class _ZonePageState extends State<ZonePage> {
     _fetchSensorsByZone();
   }
 
-  // API를 통해 선택된 구역의 센서 목록을 불러오는 함수
   Future<void> _fetchSensorsByZone() async {
     if (!mounted) return;
 
@@ -153,7 +151,7 @@ class _ZonePageState extends State<ZonePage> {
       return Center(child: Text('${_selectedZoneName.first} 구역에 등록된 장치가 없습니다.'));
     }
 
-    // 목록 (Card와 ListTile 사용) 표시
+    // 목록 (SensorCard 디자인 복구) 표시
     return ListView.builder(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       itemCount: _filteredSensors.length,
@@ -162,7 +160,6 @@ class _ZonePageState extends State<ZonePage> {
 
         return InkWell(
           onTap: () {
-            // 상세 페이지로 Sensor 객체 전달
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -170,22 +167,45 @@ class _ZonePageState extends State<ZonePage> {
               ),
             );
           },
-          child: Card(
-            margin: const EdgeInsets.symmetric(vertical: 6.0),
-            elevation: 1,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            child: ListTile(
-              // 제목: areaName 사용 (이름 중복 문제 해결)
-              title: Text(
-                sensor.areaName,
-                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-              ),
-              // 부제 제거됨
-              leading: Icon(
-                sensor.isConnected ? Icons.check_circle : Icons.error,
-                color: sensor.isConnected ? Colors.green : Colors.red,
-              ),
-              trailing: const Icon(Icons.chevron_right, color: Colors.grey),
+          child: Container(
+            margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 2.0),
+            padding: const EdgeInsets.all(16.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: Colors.grey.shade300, width: 1.0),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    // 연결 상태 점
+                    Container(
+                      width: 12,
+                      height: 12,
+                      decoration: BoxDecoration(
+                        color: sensor.isConnected ? Colors.green : Colors.red,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    // 장치 이름 (areaName)
+                    Text(
+                      sensor.areaName,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                // 오른쪽 화살표
+                Icon(
+                  Icons.chevron_right,
+                  color: Colors.grey.shade400,
+                ),
+              ],
             ),
           ),
         );
