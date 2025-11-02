@@ -37,7 +37,7 @@ class _VideoStreamPageState extends State<VideoStreamPage> {
         final msg = jsonDecode(data);
 
         if (msg['type'] == 'alert' && msg['event'] == 'fire_detected') {
-          _showFireAlert(context);
+          _showFireAlert(context, msg);
           return;
         }
 
@@ -58,12 +58,27 @@ class _VideoStreamPageState extends State<VideoStreamPage> {
     super.dispose();
   }
 
-  void _showFireAlert(BuildContext context) {
+  void _showFireAlert(BuildContext context, msg) {
+    final formattedJson = const JsonEncoder.withIndent('  ').convert(msg);
+    final detectedArea = msg['camera'] ?? 'Unknown';
+
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
         title: const Text('🔥 화재 감지'),
-        content: const Text('불이 10초 이상 감지되었습니다!'),
+        content: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('불이 5초 이상 감지되었습니다!\n'),
+              const Divider(),
+              Text(
+                '감지된 장소 : ${detectedArea}',
+                style: const TextStyle(fontFamily: 'monospace', fontSize: 12),
+              ),
+            ],
+          ),
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
@@ -73,7 +88,6 @@ class _VideoStreamPageState extends State<VideoStreamPage> {
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
