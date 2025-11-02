@@ -50,20 +50,6 @@ class SettingPage extends StatelessWidget {
               Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingLanguagePage()));
             },
           ),
-          const Divider(),
-          _buildSettingItem(
-            context,
-            icon: Icons.info,
-            title: '앱 정보',
-            onTap: () {
-              showAboutDialog(
-                context: context,
-                applicationName: '산불 감지 시스템',
-                applicationVersion: '1.0.0',
-                applicationLegalese: '© 2023 Your Company',
-              );
-            },
-          ),
         ],
       ),
     );
