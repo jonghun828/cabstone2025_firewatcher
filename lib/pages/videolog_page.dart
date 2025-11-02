@@ -8,7 +8,15 @@ import '../widgets/videolog_card.dart';
 import 'videolog_detail_page.dart';
 import '../services/api_service.dart';
 
-// 🚨 WidgetsBindingObserver 믹스인 추가
+// 🚨 누락된 VideoLogPage StatefulWidget 정의를 추가합니다.
+class VideoLogPage extends StatefulWidget {
+  const VideoLogPage({super.key});
+
+  @override
+  State<VideoLogPage> createState() => _VideoLogPageState();
+}
+
+// State 클래스는 기존 코드를 유지합니다.
 class _VideoLogPageState extends State<VideoLogPage> with WidgetsBindingObserver {
   final ApiService _apiService = ApiService();
 
@@ -31,7 +39,7 @@ class _VideoLogPageState extends State<VideoLogPage> with WidgetsBindingObserver
     super.dispose();
   }
 
-  // 🚨 3. 라이프사이클 상태 변경 감지 메서드 추가
+  // 3. 라이프사이클 상태 변경 감지 메서드 추가
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
@@ -43,9 +51,8 @@ class _VideoLogPageState extends State<VideoLogPage> with WidgetsBindingObserver
     }
   }
 
-  // API 호출 및 데이터 변환 로직 (기존과 동일)
+  // API 호출 및 데이터 변환 로직
   Future<void> _fetchLogs() async {
-    // ... (API 호출 및 데이터 처리 로직은 기존과 동일)
     setState(() {
       _isLoading = true;
       _error = null;
@@ -78,7 +85,7 @@ class _VideoLogPageState extends State<VideoLogPage> with WidgetsBindingObserver
     }
   }
 
-  // JSON 데이터를 VideoLog 모델 객체로 변환하는 핵심 로직 (기존과 동일)
+  // JSON 데이터를 VideoLog 모델 객체로 변환하는 핵심 로직
   VideoLog _mapJsonToVideoLog(Map<String, dynamic> json) {
     // 1. 구역 이름 변환 (area_id -> A/B/C/D)
     String getAreaName(int areaId, String zoneName) {
