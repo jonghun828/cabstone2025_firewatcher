@@ -25,11 +25,11 @@ class _MainPageState extends State<MainPage> {
 
   // 임시 센서 목록
   final List<Sensor> _sensorList = [
-    Sensor(areaName: 'A', sensorNumber: 'C-1', locationName: '숲', sensorType: SensorType.camera, isConnected: false),
-    Sensor(areaName: 'A', sensorNumber: 'C-2', locationName: '산책로', sensorType: SensorType.smokeSensor, isConnected: false),
-    Sensor(areaName: 'A', sensorNumber: 'C-3', locationName: '초소', sensorType: SensorType.temperatureSensor, isConnected: false),
-    Sensor(areaName: 'B', sensorNumber: 'B-1', locationName: '숲', sensorType: SensorType.camera, isConnected: true),
-    Sensor(areaName: 'C', sensorNumber: 'C-1', locationName: '숲', sensorType: SensorType.smokeSensor, isConnected: true),
+    Sensor(areaName: 'A', sensorNumber: 'C-1', locationName: '숲', sensorType: SensorType.camera, isConnected: false, areaIpAddress: ''),
+    Sensor(areaName: 'A', sensorNumber: 'C-2', locationName: '산책로', sensorType: SensorType.smokeSensor, isConnected: false, areaIpAddress: ''),
+    Sensor(areaName: 'A', sensorNumber: 'C-3', locationName: '초소', sensorType: SensorType.temperatureSensor, isConnected: false, areaIpAddress: ''),
+    Sensor(areaName: 'B', sensorNumber: 'B-1', locationName: '숲', sensorType: SensorType.camera, isConnected: true, areaIpAddress: ''),
+    Sensor(areaName: 'C', sensorNumber: 'C-1', locationName: '숲', sensorType: SensorType.smokeSensor, isConnected: true, areaIpAddress: ''),
   ];
 
   final List<VideoLog> _ongoingIncidents = [
