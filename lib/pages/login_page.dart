@@ -41,38 +41,38 @@ class _LoginPageState extends State<LoginPage> {
     });
 
     try {
-      // final response = await _apiService.login(
-      //   username: _usernameController.text,
-      //   password: _passwordController.text,
-      // );
+      final response = await _apiService.login(
+        username: _usernameController.text,
+        password: _passwordController.text,
+      );
 
-      // // 응답 처리
-      // if (response.statusCode == 200) {
-      //   // 응답 데이터에서 'accessToken' 키의 토큰 추출
-      //   final String? accessToken = response.data?['accessToken'];
-      //
-      //   if (accessToken != null) {
-      //     // 로그인 성공 시 토큰을 안전하게 저장
-      //     await _storage.write(key: ACCESS_TOKEN_KEY, value: accessToken);
-      //
-      //     _showSnackBar('로그인 성공!', isError: false);
-      //     print('로그인 성공! Access Token이 저장되었습니다.');
-      //
-      //     // 메인 페이지로 이동
-      //     Navigator.pushReplacementNamed(context, '/main');
-      //
-      //   } else {
-      //     _showSnackBar('로그인 성공, 하지만 서버 응답에 토큰이 없습니다.', isError: true);
-      //   }
-      // } else {
-      //   // 로그인 실패
-      //   _showSnackBar('로그인 실패: ${response.data?['message'] ?? '아이디 또는 비밀번호를 확인해주세요.'}');
-      // }
-      // await Future.delayed(const Duration(seconds: 2));
+      // 응답 처리
+      if (response.statusCode == 200) {
+        // 응답 데이터에서 'accessToken' 키의 토큰 추출
+        final String? accessToken = response.data?['accessToken'];
+
+        if (accessToken != null) {
+          // 로그인 성공 시 토큰을 안전하게 저장
+          await _storage.write(key: ACCESS_TOKEN_KEY, value: accessToken);
+
+          _showSnackBar('로그인 성공!', isError: false);
+          print('로그인 성공! Access Token이 저장되었습니다.');
+
+          // 메인 페이지로 이동
+          Navigator.pushReplacementNamed(context, '/main');
+
+        } else {
+          _showSnackBar('로그인 성공, 하지만 서버 응답에 토큰이 없습니다.', isError: true);
+        }
+      } else {
+        // 로그인 실패
+        _showSnackBar('로그인 실패: ${response.data?['message'] ?? '아이디 또는 비밀번호를 확인해주세요.'}');
+      }
+      await Future.delayed(const Duration(seconds: 2));
 
       // 임시 테스트
-      _showSnackBar('로그인 성공! (UI 테스트용)', isError: false);
-      Navigator.pushReplacementNamed(context, '/main');
+      // _showSnackBar('로그인 성공! (UI 테스트용)', isError: false);
+      // Navigator.pushReplacementNamed(context, '/main');
     } catch (e) {
       // API 호출 중 오류
       _showSnackBar('오류 발생: 서버 연결 또는 처리 중 문제가 발생했습니다.');
