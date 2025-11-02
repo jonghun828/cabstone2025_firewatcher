@@ -1,3 +1,5 @@
+// lib/widgets/home_sensor_list_widget.dart (수정)
+
 import 'package:flutter/material.dart';
 import '../models/sensor.dart';
 import '../pages/zone_detail_page.dart';
@@ -12,13 +14,15 @@ class HomeSensorListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    // Note: zoneMap은 이 위젯에서 필요 없지만, 이전 코드의 구조를 유지했습니다.
+    // final Map<String, int> zoneMap = const {'A': 0, 'B': 1, 'C': 2, 'D': 3};
 
+    return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Center(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30.0),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: SizedBox(
               height: 390.0,
               child: Container( // 센서 현황 리스트
@@ -29,7 +33,7 @@ class HomeSensorListWidget extends StatelessWidget {
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.15),
                       spreadRadius: 2,
-                      blurRadius: 8,
+                      blurRadius: 2,
                       offset: const Offset(0, 4),
                     ),
                   ],
@@ -39,6 +43,9 @@ class HomeSensorListWidget extends StatelessWidget {
                   itemCount: sensorList.length,
                   itemBuilder: (context, index) {
                     final sensor = sensorList[index];
+                    // final zoneId = zoneMap[sensor.areaName] ?? 0;
+                    // final zoneName = sensor.areaName;
+
                     return InkWell( // 카드 클릭 이벤트 처리
                       borderRadius: BorderRadius.circular(8),
                       onTap: () {

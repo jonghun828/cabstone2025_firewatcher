@@ -1,4 +1,11 @@
+// lib/pages/setting_page.dart
+
 import 'package:flutter/material.dart';
+// 설정 상세 페이지들 (예시)
+import 'setting_notification_page.dart';
+import 'setting_video_page.dart';
+import 'setting_theme_page.dart';
+import 'setting_language_page.dart';
 
 class SettingPage extends StatelessWidget {
   const SettingPage({super.key});
@@ -8,79 +15,78 @@ class SettingPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('설정'),
-        automaticallyImplyLeading: false,
       ),
       body: ListView(
-        padding: const EdgeInsets.all(16.0),
         children: [
-          ListTile(
-            leading: Icon(Icons.notifications_none),
-            title: Text('알림 설정'),
+          _buildSettingItem(
+            context,
+            icon: Icons.notifications,
+            title: '알림 설정',
             onTap: () {
-              print('알림 설정 메뉴 클릭');
-              // TODO: 알림 설정 상세 페이지로 이동
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingNotificationPage()));
             },
           ),
-          Divider(),
-
-          ListTile(
-            leading: Icon(Icons.devices_other),
-            title: Text('기기 설정'),
+          _buildSettingItem(
+            context,
+            icon: Icons.videocam,
+            title: '영상 설정',
             onTap: () {
-              print('기기 설정 메뉴 클릭');
-              // TODO: 기기 설정 상세 페이지로 이동
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingVideoPage()));
             },
           ),
-          Divider(),
-
-          ListTile(
-            leading: Icon(Icons.videocam),
-            title: Text('영상 설정'),
+          _buildSettingItem(
+            context,
+            icon: Icons.color_lens,
+            title: '테마 설정',
             onTap: () {
-              print('영상 설정 메뉴 클릭');
-              // TODO: 영상 설정 상세 페이지로 이동
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingThemePage()));
             },
           ),
-          Divider(),
-
-          ListTile(
-            leading: Icon(Icons.brightness_6), // 밝기/테마 관련 아이콘
-            title: Text('테마 설정'),
+          _buildSettingItem(
+            context,
+            icon: Icons.language,
+            title: '언어 설정',
             onTap: () {
-              print('테마 설정 메뉴 클릭');
-              // TODO: 테마 설정 상세 페이지로 이동
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingLanguagePage()));
             },
           ),
-          Divider(),
-
-          ListTile(
-            leading: Icon(Icons.language), // 언어 관련 아이콘
-            title: Text('언어 설정'),
+          const Divider(),
+          _buildSettingItem(
+            context,
+            icon: Icons.info,
+            title: '앱 정보',
             onTap: () {
-              print('언어 설정 메뉴 클릭');
-              // TODO: 언어 설정 상세 페이지로 이동
+              showAboutDialog(
+                context: context,
+                applicationName: '산불 감지 시스템',
+                applicationVersion: '1.0.0',
+                applicationLegalese: '© 2023 Your Company',
+              );
             },
-          ),
-          Divider(),
-
-          ListTile(
-            leading: Icon(Icons.help_outline), // 언어 관련 아이콘
-            title: Text('도움말'),
-            onTap: () {
-              print('도움말 메뉴 클릭');
-              // TODO: 언어 설정 상세 페이지로 이동
-            },
-          ),
-          Divider(),
-
-          ListTile(
-            leading: Icon(Icons.logout),
-            title: Text('로그아웃'),
-            onTap: (){
-              Navigator.pushReplacementNamed(context, '/');
-            }
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildSettingItem(BuildContext context, {required IconData icon, required String title, VoidCallback? onTap}) {
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+        child: Row(
+          children: [
+            Icon(icon, color: Colors.blueGrey, size: 28),
+            const SizedBox(width: 20),
+            Expanded(
+              child: Text(
+                title,
+                style: const TextStyle(fontSize: 18),
+              ),
+            ),
+            const Icon(Icons.chevron_right, color: Colors.grey),
+          ],
+        ),
       ),
     );
   }
